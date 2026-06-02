@@ -23,7 +23,7 @@ class KCBUS:
     ---------
     read_pins        : GPIO inputs  — data arriving from the Control Hub.
     write_pins       : GPIO outputs — data leaving to the Control Hub.
-    clock_pin        : GPIO input   — clock driven by the Control Hub.
+    input_clk        : GPIO input   — clock driven by the Control Hub.
     input_state_pin  : GPIO input   — Control Hub asserts HIGH when it wants
                        to send data to the Pi.
     output_state_pin : GPIO output  — Pi asserts HIGH when it wants to send
@@ -38,7 +38,9 @@ class KCBUS:
         self,
         read_pins: list[int],
         write_pins: list[int],
-        clock_pin: int,
+        input_clk: int,
+        output_clk: int,
+        output_clk_freq: float,
         input_state_pin: int,
         output_state_pin: int,
     ):
@@ -49,12 +51,14 @@ class KCBUS:
 
         # Inputs (inverted because the Control Hub uses active-low signalling)
         self.read_pins       = [DigitalInputDevice(pin) for pin in read_pins]
-        self.clock_pin       = DigitalInputDevice(clock_pin)
+        self.input_clk       = DigitalInputDevice(input_clk)
         self.input_state_pin = DigitalInputDevice(input_state_pin)
 
         # Outputs — start LOW in logical terms, but use inverted GPIO polarity
-        self.write_pins       = [OutputDevice(pin, initial_value=False, active_high=False) for pin in write_pins]
-        self.output_state_pin = OutputDevice(output_state_pin, initial_value=False, active_high=False)
+        self.write_pins       = [OutputDevice(pin, initial_value=False, active_high=True) for pin in write_pins]
+        self.output_state_pin = OutputDevice(output_state_pin, initial_value=False, active_high=True)
+        self.output_clk       = OutputDevice(output_clk, initial_value=False, active_high=True)
+        self.output_clk_freq  = output_clk_freq
 
     # ------------------------------------------------------------------
     # Read
@@ -72,11 +76,11 @@ class KCBUS:
         """
         data         = 0
         bit_position = 0
-        prev_clock   = self.clock_pin.value
+        prev_clock   = self.input_clk.value
         yields       = 0
 
         while self.input_state_pin.value:
-            curr_clock = self.clock_pin.value
+            curr_clock = self.input_clk.value
 
             if curr_clock and not prev_clock:  # Rising edge in logical terms
                 for pin in reversed(self.read_pins):
@@ -115,25 +119,31 @@ class KCBUS:
                 f"the number of write pins ({len(self.write_pins)})."
             )
         remaining  = bit_length
-        prev_clock = self.clock_pin.value
 
         try:
+            clock_state = self.input_clk.value  # Start in sync with the Hub's clock
+            prev_clock = clock_state
             while remaining > 0:
-                curr_clock = self.clock_pin.value
-                if not curr_clock and prev_clock:
+                self.output_state_pin.on()  # Signal to the Hub that we're writing data.
+                clock_state = self.input_clk.value
+                if not clock_state and prev_clock:
                     # Preset the data pins for the next rising edge. The MSB of the data goes on the first pin, so shift the bits accordingly.
-                    self.output_state_pin.on() # This is when you indicate to the hub that you have data to send. It should be held HIGH for the entire duration of the transfer.
                     for i, pin in enumerate(reversed(self.write_pins)):
                         bit_index = remaining - 1 - i
                         bit = (data >> bit_index) & 0x01 if bit_index >= 0 else 0
                         pin.value = bit
                     remaining -= len(self.write_pins)
-
-                prev_clock = curr_clock
-                await asyncio.sleep(self.POLL_YIELD)
+                prev_clock = clock_state
+            while not self.input_clk.value:
+                asyncio.sleep(self.POLL_YIELD) # Sleep until the Hub has read the last bits on the rising edge.
+                # Wait for the Hub to finish reading the last bits before releasing the bus.    
+            self.output_state_pin.off()
         finally:
             # Always release the bus, even if an exception is raised.
+            while self.input_clk.value:  # Wait for the Hub to finish reading the last bits before releasing the bus.
+                await asyncio.sleep(self.POLL_YIELD)
             self.output_state_pin.off()
+            self.output_clk.off()
             for pin in self.write_pins:
                 pin.off()
 
@@ -162,7 +172,7 @@ class KCBUS:
             pin.close()
         for pin in self.write_pins:
             pin.close()
-        self.clock_pin.close()
+        self.input_clk.close()
         self.input_state_pin.close()
         self.output_state_pin.close()
 
@@ -186,8 +196,9 @@ class KCBUS:
         The buffer is bounded by BUFFER_MAX; oldest entries are evicted
         automatically (via deque maxlen).
         """
+        
         while True:
-            
+            # Toggle the output clock at the specified frequency
             if self.ready_to_read():
                 data = await self.read()
                 self.buffer.append(data)
@@ -202,23 +213,27 @@ class KCBUS:
 async def main():
     with KCBUS(
         read_pins=[5, 6],
-        write_pins=[20, 21],
-        clock_pin=13,
+        write_pins=[23, 24],
+        input_clk=13,
+        output_clk=25,
+        output_clk_freq=0.1,
         input_state_pin=19,
         output_state_pin=16,
     ) as bus:
         async def send_data_periodically():
-            x = 0
+            x = 10
             while True:
-                print(f"Sending: {x}")
                 await bus.write(x, bit_length=16)
-                await asyncio.sleep(2)
-                x = (x + 1) % 65536  # Wrap around at 16 bits
+                print(f"Sent: {x}")
+                await asyncio.sleep(0.2)
+                await bus.write(128+x, bit_length=16)
+                print(f"Sent: {128+x}")
+
+                await asyncio.sleep(0.2)
+                x = (x + 1) % 256
         asyncio.create_task(bus.loop())
         asyncio.create_task(send_data_periodically())
 
-        # Send 8 bits to the Control Hub.
-        await bus.write(10, bit_length=4)
 
         # Main application loop.
         while True:

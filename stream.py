@@ -86,7 +86,7 @@ config = picam2.create_video_configuration(
 picam2.configure(config)
 picam2.start()
 sleep(2)  # Let AWB settle
-picam2.set_controls({"AwbEnable": False, "ColourGains": (1.1, 1.7)})
+#picam2.set_controls({"AwbEnable": False, "ColourGains": (1.1, 1.7)})
 
 
 # ==========================================================
