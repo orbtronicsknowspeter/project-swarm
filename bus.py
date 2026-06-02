@@ -7,6 +7,11 @@ Dependencies: gpiozero (pre-installed on Raspberry Pi OS)
 """
 
 import asyncio
+import select
+import sys
+import termios
+import time
+import tty
 from collections import deque
 from gpiozero import DigitalInputDevice, OutputDevice
 
@@ -135,7 +140,7 @@ class KCBUS:
                     remaining -= len(self.write_pins)
                 prev_clock = clock_state
             while not self.input_clk.value:
-                asyncio.sleep(self.POLL_YIELD) # Sleep until the Hub has read the last bits on the rising edge.
+                await asyncio.sleep(self.POLL_YIELD)  # Sleep until the Hub has read the last bits on the rising edge.
                 # Wait for the Hub to finish reading the last bits before releasing the bus.    
             self.output_state_pin.off()
         finally:
@@ -206,6 +211,87 @@ class KCBUS:
                 await asyncio.sleep(self.POLL_YIELD)
 
 
+def _read_char(timeout: float = 0.1) -> str | None:
+    fd = sys.stdin.fileno()
+    ready, _, _ = select.select([fd], [], [], timeout)
+    if not ready:
+        return None
+    return sys.stdin.read(1)
+
+
+def _read_keypress(timeout: float = 0.1) -> str | None:
+    first = _read_char(timeout)
+    if first is None:
+        return None
+    if first != "\x1b":
+        if first == "\x03":
+            return "CTRL_C"
+        if first.lower() == "q":
+            return "QUIT"
+        return first.upper()
+
+    escape_map = {"A": "UP", "B": "DOWN", "C": "RIGHT", "D": "LEFT"}
+    second = _read_char(0.05)
+    if second != "[":
+        return None
+    third = _read_char(0.05)
+    if third in escape_map:
+        return escape_map[third]
+    if third != "1":
+        return None
+    if _read_char(0.05) != ";":
+        return None
+    modifier = _read_char(0.05)
+    arrow = _read_char(0.05)
+    if modifier == "2" and arrow in escape_map:
+        return f"SHIFT_{escape_map[arrow]}"
+    return None
+
+
+def _compute_wheel_speeds(active_keys: set[str]) -> tuple[int, int] | None:
+    boost = "SHIFT" in active_keys
+    base_speed = 90 if boost else 50
+    turn_delta = 35 if boost else 25
+
+    forward = "UP" in active_keys
+    left_turn = "LEFT" in active_keys
+    right_turn = "RIGHT" in active_keys
+    stop = "DOWN" in active_keys
+
+    if forward:
+        if left_turn:
+            left_speed = max(0, base_speed - turn_delta)
+            right_speed = min(127, base_speed + turn_delta)
+        elif right_turn:
+            left_speed = min(127, base_speed + turn_delta)
+            right_speed = max(0, base_speed - turn_delta)
+        else:
+            left_speed = right_speed = base_speed
+    elif left_turn:
+        left_speed = 0
+        right_speed = base_speed
+    elif right_turn:
+        left_speed = base_speed
+        right_speed = 0
+    elif stop:
+        left_speed = right_speed = 0
+    else:
+        return None
+
+    return left_speed, right_speed
+
+
+def _set_terminal_raw_mode() -> tuple:
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    tty.setcbreak(fd)
+    return old_settings
+
+
+def _restore_terminal_mode(old_settings: tuple) -> None:
+    termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, old_settings)
+
+
 # ---------------------------------------------------------------------------
 # Example usage
 # ---------------------------------------------------------------------------
@@ -220,28 +306,57 @@ async def main():
         input_state_pin=19,
         output_state_pin=16,
     ) as bus:
-        async def send_data_periodically():
-            x = 10
+        async def send_wheel_speeds(left_speed: int, right_speed: int):
+            await bus.write(left_speed, bit_length=16)
+            print(f"Sent left: {left_speed}")
+            await asyncio.sleep(0.02)
+            await bus.write(128 + right_speed, bit_length=16)
+            print(f"Sent right: {128 + right_speed}")
+
+        async def control_with_keyboard():
+            print("Use arrow keys to control the robot. Press q or Ctrl-C to quit.")
+            old_settings = _set_terminal_raw_mode()
+            key_timestamps: dict[str, float] = {}
+            try:
+                while True:
+                    key = await asyncio.get_running_loop().run_in_executor(None, _read_keypress, 0.1)
+                    now = time.monotonic()
+
+                    if key in {"QUIT", "CTRL_C"}:
+                        break
+                    if key is not None:
+                        if key.startswith("SHIFT_"):
+                            key_timestamps["SHIFT"] = now
+                            key_timestamps[key[len("SHIFT_"):]] = now
+                        elif key in {"UP", "DOWN", "LEFT", "RIGHT"}:
+                            key_timestamps[key] = now
+
+                    # Remove keys that are no longer being held.
+                    key_timestamps = {
+                        k: timestamp for k, timestamp in key_timestamps.items()
+                        if now - timestamp <= 0.25
+                    }
+                    active_keys = set(key_timestamps)
+
+                    speeds = _compute_wheel_speeds(active_keys)
+                    if speeds is not None:
+                        left_speed, right_speed = speeds
+                        await send_wheel_speeds(left_speed, right_speed)
+                    else:
+                        await send_wheel_speeds(0, 0)
+            finally:
+                _restore_terminal_mode(old_settings)
+                print("Terminal restored.")
+
+        async def display_received_data():
             while True:
-                await bus.write(x, bit_length=16)
-                print(f"Sent: {x}")
-                await asyncio.sleep(0.2)
-                await bus.write(128+x, bit_length=16)
-                print(f"Sent: {128+x}")
+                latest = bus.get_data_from_buffer(latest_only=True)
+                if latest is not None:
+                    print(f"Received: {latest}")
+                await asyncio.sleep(2)
 
-                await asyncio.sleep(0.2)
-                x = (x + 1) % 256
         asyncio.create_task(bus.loop())
-        asyncio.create_task(send_data_periodically())
-
-
-        # Main application loop.
-        while True:
-            latest = bus.get_data_from_buffer(latest_only=True)
-            if latest is not None:
-                pass
-                print(f"Received: {latest}")
-            await asyncio.sleep(2)
+        await asyncio.gather(control_with_keyboard(), display_received_data())
 
 
 if __name__ == "__main__":
