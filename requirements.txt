@@ -1,0 +1,6 @@
+aiohttp
+aiortc
+av
+picamera2
+gpiozero
+numpy
