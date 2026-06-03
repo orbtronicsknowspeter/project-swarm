@@ -1,7 +1,5 @@
 """
-Combined KCBUS & WebRTC Streamer
-Integrates a bit-banged 2-bit GPIO protocol, keyboard controls, and 
-an aiortc H.264 video streaming server.
+Raspberry Pi WebRTC Streamer + Arduino Uno Commander
 """
 
 import asyncio
@@ -11,93 +9,28 @@ import termios
 import time
 import tty
 import json
-from collections import deque
+import serial
 
 from aiohttp import web
 from aiortc import RTCPeerConnection, RTCSessionDescription, RTCConfiguration, RTCIceServer, VideoStreamTrack
 from av import VideoFrame
 from picamera2 import Picamera2
-from gpiozero import DigitalInputDevice, OutputDevice
 
 # ==========================================================
-# KCBUS: Custom 2-bit parallel bus
+# SERIAL SETUP TO ARDUINO UNO
 # ==========================================================
+# An Arduino Uno usually shows up as /dev/ttyACM0 or /dev/ttyUSB0
+SERIAL_PORT = "/dev/ttyACM0" 
+BAUD_RATE = 115200
 
-class KCBUS:
-    BUFFER_MAX          = 5
-    POLL_YIELD          = 0        
-    READ_TIMEOUT_YIELDS = 100_000  
-
-    def __init__(self, read_pins: list[int], write_pins: list[int], input_clk: int, output_clk: int, output_clk_freq: float, input_state_pin: int, output_state_pin: int):
-        if len(read_pins) != 2 or len(write_pins) != 2:
-            raise ValueError("read_pins and write_pins must each have exactly 2 entries.")
-
-        self.buffer: deque[int] = deque(maxlen=self.BUFFER_MAX)
-
-        self.read_pins       = [DigitalInputDevice(pin) for pin in read_pins]
-        self.input_clk       = DigitalInputDevice(input_clk)
-        self.input_state_pin = DigitalInputDevice(input_state_pin)
-
-        self.write_pins       = [OutputDevice(pin, initial_value=False, active_high=True) for pin in write_pins]
-        self.output_state_pin = OutputDevice(output_state_pin, initial_value=False, active_high=True)
-        self.output_clk       = OutputDevice(output_clk, initial_value=False, active_high=True)
-        self.output_clk_freq  = output_clk_freq
-
-    async def read(self) -> int:
-        data, bit_position, prev_clock, yields = 0, 0, self.input_clk.value, 0
-        while self.input_state_pin.value:
-            curr_clock = self.input_clk.value
-            if curr_clock and not prev_clock:
-                for pin in reversed(self.read_pins):
-                    data = (data << 1) | pin.value
-                bit_position += len(self.read_pins)
-            prev_clock = curr_clock
-            await asyncio.sleep(self.POLL_YIELD)
-            yields += 1
-            if yields >= self.READ_TIMEOUT_YIELDS: break  
-        return data
-
-    async def write(self, data: int, bit_length: int) -> None:
-        if bit_length % len(self.write_pins) != 0: raise ValueError("bit_length error")
-        remaining = bit_length
-        try:
-            clock_state = self.input_clk.value 
-            prev_clock = clock_state
-            while remaining > 0:
-                self.output_state_pin.on()
-                clock_state = self.input_clk.value
-                if not clock_state and prev_clock:
-                    for i, pin in enumerate(reversed(self.write_pins)):
-                        bit_index = remaining - 1 - i
-                        pin.value = (data >> bit_index) & 0x01 if bit_index >= 0 else 0
-                    remaining -= len(self.write_pins)
-                prev_clock = clock_state
-                await asyncio.sleep(self.POLL_YIELD)
-                
-            while not self.input_clk.value: await asyncio.sleep(self.POLL_YIELD) 
-            self.output_state_pin.off()
-        finally:
-            while self.input_clk.value: await asyncio.sleep(self.POLL_YIELD)
-            self.output_state_pin.off()
-            self.output_clk.off()
-            for pin in self.write_pins: pin.off()
-
-    def ready_to_read(self) -> bool:
-        return bool(self.input_state_pin.value)
-
-    def get_data_from_buffer(self, latest_only: bool = False):
-        if latest_only: return self.buffer[-1] if self.buffer else None
-        return self.buffer[0]
-
-    def close(self) -> None:
-        for p in self.read_pins + self.write_pins + [self.input_clk, self.input_state_pin, self.output_state_pin]: p.close()
-
-    async def loop(self) -> None:
-        while True:
-            if self.ready_to_read():
-                self.buffer.append(await self.read())
-            else:
-                await asyncio.sleep(self.POLL_YIELD)
+try:
+    uno_serial = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=0)
+    # CRITICAL: Arduino Unos reset when serial opens. We must wait 2 seconds.
+    print("Opening serial... waiting 2 seconds for Arduino to reboot.")
+    time.sleep(2) 
+except serial.SerialException as e:
+    print(f"Error opening Serial Port {SERIAL_PORT}. Is the Uno plugged in?")
+    uno_serial = None
 
 # ==========================================================
 # KEYBOARD INPUT HELPERS
@@ -175,8 +108,6 @@ class CameraVideoTrack(VideoStreamTrack):
         await asyncio.sleep(1 / 30)
         pts, time_base = await self.next_timestamp()
         
-        # --- OPTIMIZATION: Threaded Camera Capture ---
-        # Prevents frame grabs from freezing the KCBUS background loop!
         loop = asyncio.get_running_loop()
         frame = await loop.run_in_executor(None, picam2.capture_array, "main")
         
@@ -189,11 +120,9 @@ async def offer(request):
     offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
     pc = RTCPeerConnection(configuration=RTCConfiguration(iceServers=[RTCIceServer(urls=["stun:stun.l.google.com:19302"])]))
     pcs.add(pc)
-    print("New WebRTC connection created\r")
 
     @pc.on("connectionstatechange")
     async def on_connectionstatechange():
-        print(f"Connection state: {pc.connectionState}\r")
         if pc.connectionState in ("failed", "closed", "disconnected"):
             await pc.close()
             pcs.discard(pc)
@@ -208,16 +137,16 @@ async def index(request): return web.Response(text=INDEX_HTML, content_type="tex
 
 
 # ==========================================================
-# BACKGROUND TASKS & LIFECYCLE
+# BACKGROUND TASKS
 # ==========================================================
-bus_instance = None
 terminal_settings = None
 background_tasks = []
 
-async def send_wheel_speeds(left_speed: int, right_speed: int):
-    await bus_instance.write(left_speed, bit_length=16)
-    await asyncio.sleep(0.02)
-    await bus_instance.write(128 + right_speed, bit_length=16)
+def send_wheel_speeds_serial(left_speed: int, right_speed: int):
+    """Sends target speeds to the Arduino Uno over USB."""
+    if uno_serial:
+        command = f"W:{left_speed},{right_speed}\n"
+        uno_serial.write(command.encode('utf-8'))
 
 async def control_with_keyboard():
     global terminal_settings
@@ -228,12 +157,10 @@ async def control_with_keyboard():
     
     try:
         while True:
-            # Non-blocking terminal read via Thread Executor
             key = await loop.run_in_executor(None, _read_keypress, 0.1)
             now = time.monotonic()
 
             if key in {"QUIT", "CTRL_C"}: 
-                # If they quit, we must trigger server shutdown cleanly
                 loop.create_task(shutdown_server()) 
                 break
                 
@@ -244,39 +171,39 @@ async def control_with_keyboard():
                 elif key in {"UP", "DOWN", "LEFT", "RIGHT"}:
                     key_timestamps[key] = now
 
-            # Cull old key presses
             key_timestamps = {k: ts for k, ts in key_timestamps.items() if now - ts <= 0.25}
             speeds = _compute_wheel_speeds(set(key_timestamps))
             
-            if speeds: await send_wheel_speeds(speeds[0], speeds[1])
-            else: await send_wheel_speeds(0, 0)
+            if speeds: 
+                send_wheel_speeds_serial(speeds[0], speeds[1])
+            else: 
+                send_wheel_speeds_serial(0, 0)
     finally:
         if terminal_settings: termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, terminal_settings)
 
-async def display_received_data():
+async def read_from_uno():
+    """Background task to print any data the Arduino sends back to the Pi."""
+    loop = asyncio.get_running_loop()
     while True:
-        latest = bus_instance.get_data_from_buffer(latest_only=True)
-        if latest is not None: print(f"Received: {latest}\r")
-        await asyncio.sleep(2)
+        if uno_serial and uno_serial.in_waiting > 0:
+            # Read non-blocking
+            data = await loop.run_in_executor(None, uno_serial.readline)
+            if data:
+                print(f"UNO says: {data.decode('utf-8').strip()}\r")
+        await asyncio.sleep(0.01)
 
 async def start_background_tasks(app):
-    global bus_instance
-    bus_instance = KCBUS(read_pins=[5, 6], write_pins=[23, 24], input_clk=13, output_clk=25, output_clk_freq=0.1, input_state_pin=19, output_state_pin=16)
-    
-    # Store references to tasks so they don't get garbage collected
-    background_tasks.append(asyncio.create_task(bus_instance.loop()))
     background_tasks.append(asyncio.create_task(control_with_keyboard()))
-    background_tasks.append(asyncio.create_task(display_received_data()))
+    background_tasks.append(asyncio.create_task(read_from_uno()))
 
 async def cleanup_background_tasks(app):
     if terminal_settings: termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, terminal_settings)
     for task in background_tasks: task.cancel()
-    if bus_instance: bus_instance.close()
+    if uno_serial: uno_serial.close()
     await asyncio.gather(*[pc.close() for pc in pcs])
     pcs.clear()
 
 async def shutdown_server():
-    """Allows quitting from the raw terminal to trigger an aiohttp shutdown."""
     raise KeyboardInterrupt
 
 # ==========================================================
@@ -287,10 +214,8 @@ if __name__ == "__main__":
     app.router.add_get("/", index)
     app.router.add_post("/offer", offer)
     
-    # Attach setup/teardown events safely
     app.on_startup.append(start_background_tasks)
     app.on_cleanup.append(cleanup_background_tasks)
 
-    # Note: Prints might look weird due to Raw Terminal mode on startup
-    print("Starting Web Server at http://0.0.0.0:8080...")
+    print(f"Starting Web Server at http://0.0.0.0:8080... (Serial: {SERIAL_PORT})\r")
     web.run_app(app, host="0.0.0.0", port=8080)
