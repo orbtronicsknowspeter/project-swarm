@@ -147,6 +147,8 @@ def send_wheel_speeds_serial(left_speed: int, right_speed: int):
     if uno_serial:
         command = f"W:{left_speed},{right_speed}\n"
         uno_serial.write(command.encode('utf-8'))
+        # Ensure it flushes to the OS immediately
+        uno_serial.flush()
 
 async def control_with_keyboard():
     global terminal_settings
@@ -155,9 +157,14 @@ async def control_with_keyboard():
     key_timestamps: dict[str, float] = {}
     loop = asyncio.get_running_loop()
     
+    # --- FIX 1: Track the last sent speeds ---
+    last_left = -1
+    last_right = -1
+    
     try:
         while True:
-            key = await loop.run_in_executor(None, _read_keypress, 0.1)
+            # Drop the timeout to 0.05 for tighter responsiveness
+            key = await loop.run_in_executor(None, _read_keypress, 0.05)
             now = time.monotonic()
 
             if key in {"QUIT", "CTRL_C"}: 
@@ -171,16 +178,25 @@ async def control_with_keyboard():
                 elif key in {"UP", "DOWN", "LEFT", "RIGHT"}:
                     key_timestamps[key] = now
 
+            # Remove released keys
             key_timestamps = {k: ts for k, ts in key_timestamps.items() if now - ts <= 0.25}
             speeds = _compute_wheel_speeds(set(key_timestamps))
             
-            if speeds: 
-                send_wheel_speeds_serial(speeds[0], speeds[1])
-            else: 
-                send_wheel_speeds_serial(0, 0)
+            # Determine current target speeds
+            current_left, current_right = speeds if speeds else (0, 0)
+            
+            # --- FIX 2: Only send data if the speeds actually changed! ---
+            if current_left != last_left or current_right != last_right:
+                # --- FIX 3: Run the write in an executor so it never blocks WebRTC ---
+                await loop.run_in_executor(None, send_wheel_speeds_serial, current_left, current_right)
+                last_left = current_left
+                last_right = current_right
+            
+            # --- FIX 4: Small sleep prevents CPU spiking ---
+            await asyncio.sleep(0.01)
+            
     finally:
         if terminal_settings: termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, terminal_settings)
-
 async def read_from_uno():
     """Background task to print any data the Arduino sends back to the Pi."""
     loop = asyncio.get_running_loop()
