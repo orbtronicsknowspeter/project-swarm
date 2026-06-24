@@ -1,0 +1,337 @@
+package e4;
+
+import android.content.Context;
+import android.content.Intent;
+import android.text.Spanned;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import com.uptodown.R;
+import com.uptodown.UptodownApp;
+import com.uptodown.activities.RepliesActivity;
+import com.uptodown.activities.UserCommentsActivity;
+import java.util.ArrayList;
+import m5.s1;
+import x4.k2;
+import x4.w2;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class b1 extends RecyclerView.Adapter {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final ArrayList f4494a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final a3.d f4495b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public boolean f4496c;
+
+    public b1(ArrayList arrayList, a3.d dVar) {
+        dVar.getClass();
+        this.f4494a = arrayList;
+        this.f4495b = dVar;
+    }
+
+    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    public final int getItemCount() {
+        return this.f4494a.size() + (this.f4496c ? 1 : 0);
+    }
+
+    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    public final int getItemViewType(int i) {
+        return i == this.f4494a.size() ? 1 : 0;
+    }
+
+    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    public final void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
+        ImageView imageView;
+        String strK;
+        viewHolder.getClass();
+        if (viewHolder instanceof s1) {
+            Object obj = this.f4494a.get(i);
+            obj.getClass();
+            k2 k2Var = (k2) obj;
+            final s1 s1Var = (s1) viewHolder;
+            ImageView imageView2 = s1Var.f7578z;
+            ImageView imageView3 = s1Var.f7577y;
+            ImageView imageView4 = s1Var.f7576x;
+            ImageView imageView5 = s1Var.f7575w;
+            TextView textView = s1Var.f7565l;
+            LinearLayout linearLayout = s1Var.f7572s;
+            LinearLayout linearLayout2 = s1Var.f7571r;
+            ImageView imageView6 = s1Var.f7566m;
+            TextView textView2 = s1Var.f7568o;
+            Context context = s1Var.f7564b;
+            String str = k2Var.f11270u;
+            if (str != null && str.length() != 0) {
+                textView.setText(k2Var.f11270u);
+            }
+            String str2 = k2Var.f11262m;
+            if ((str2 != null ? a4.x.k(str2, UptodownApp.K, ":webp") : null) != null) {
+                a4.g0 g0VarD = a4.g0.d();
+                String str3 = k2Var.f11262m;
+                if (str3 != null) {
+                    imageView = imageView2;
+                    strK = a4.x.k(str3, UptodownApp.K, ":webp");
+                } else {
+                    imageView = imageView2;
+                    strK = null;
+                }
+                a4.l0 l0VarE = g0VarD.e(strK);
+                float f = UptodownApp.I;
+                l0VarE.g(b4.d.f(context));
+                l0VarE.h(b4.d.x(context));
+                l0VarE.e(imageView6, null);
+            } else {
+                imageView = imageView2;
+                a4.l0 l0VarF = a4.g0.d().f();
+                float f10 = UptodownApp.I;
+                l0VarF.h(b4.d.x(context));
+                l0VarF.e(imageView6, null);
+            }
+            String str4 = k2Var.f11267r;
+            if (str4 != null) {
+                s1Var.f7567n.setText(str4);
+            }
+            Spanned spannedA = k2Var.a();
+            final int i6 = 0;
+            if (spannedA == null || spannedA.length() == 0) {
+                textView2.setVisibility(8);
+                linearLayout2.setVisibility(8);
+                linearLayout.setVisibility(8);
+            } else {
+                textView2.setText(k2Var.a());
+                textView2.setVisibility(0);
+                linearLayout2.setVisibility(0);
+                linearLayout.setVisibility(0);
+            }
+            s1Var.f7570q.setText(String.valueOf(k2Var.f11268s));
+            boolean zContains = j5.t.f6710b.contains(Long.valueOf(k2Var.f11259a));
+            ImageView imageView7 = s1Var.f7574u;
+            if (zContains) {
+                imageView7.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_heart_red));
+            } else {
+                imageView7.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_heart));
+            }
+            int i10 = k2Var.f11266q;
+            TextView textView3 = s1Var.f7573t;
+            if (i10 == 0) {
+                textView3.setText(context.getString(R.string.reply));
+            } else {
+                textView3.setText(String.valueOf(i10));
+            }
+            textView.setOnClickListener(new View.OnClickListener() { // from class: m5.r1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    int i11 = i6;
+                    int i12 = i;
+                    s1 s1Var2 = s1Var;
+                    switch (i11) {
+                        case 0:
+                            a3.d dVar = s1Var2.f7563a;
+                            dVar.getClass();
+                            float f11 = UptodownApp.I;
+                            if (b4.d.t()) {
+                                UserCommentsActivity userCommentsActivity = (UserCommentsActivity) dVar.f63b;
+                                e4.b1 b1Var = userCommentsActivity.Q;
+                                b1Var.getClass();
+                                userCommentsActivity.i0(((k2) b1Var.f4494a.get(i12)).f11263n);
+                            }
+                            break;
+                        case 1:
+                            a3.d dVar2 = s1Var2.f7563a;
+                            dVar2.getClass();
+                            float f12 = UptodownApp.I;
+                            if (b4.d.t()) {
+                                UserCommentsActivity userCommentsActivity2 = (UserCommentsActivity) dVar2.f63b;
+                                e4.b1 b1Var2 = userCommentsActivity2.Q;
+                                b1Var2.getClass();
+                                userCommentsActivity2.i0(((k2) b1Var2.f4494a.get(i12)).f11263n);
+                            }
+                            break;
+                        default:
+                            UserCommentsActivity userCommentsActivity3 = (UserCommentsActivity) s1Var2.f7563a.f63b;
+                            float f13 = UptodownApp.I;
+                            if (b4.d.t() && userCommentsActivity3.T()) {
+                                Intent intent = new Intent(userCommentsActivity3, (Class<?>) RepliesActivity.class);
+                                e4.b1 b1Var3 = userCommentsActivity3.Q;
+                                b1Var3.getClass();
+                                Object obj2 = b1Var3.f4494a.get(i12);
+                                obj2.getClass();
+                                k2 k2Var2 = (k2) obj2;
+                                k2Var2.v = ((w2) userCommentsActivity3.z0().f1437e.getValue()).d() ? 1 : 0;
+                                k2Var2.f11271w = ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11437o;
+                                k2Var2.f11260b = ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11432a;
+                                intent.putExtra("review", k2Var2);
+                                intent.putExtra("appId", k2Var2.f11263n);
+                                intent.putExtra("username", ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11435m);
+                                intent.putExtra("appName", k2Var2.f11270u);
+                                intent.putExtra("appIconUrl", k2Var2.f11262m);
+                                intent.putExtra("userAvatarUrl", ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11434l);
+                                userCommentsActivity3.startActivity(intent, b4.d.a(userCommentsActivity3));
+                                break;
+                            }
+                            break;
+                    }
+                }
+            });
+            final int i11 = 1;
+            imageView6.setOnClickListener(new View.OnClickListener() { // from class: m5.r1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    int i112 = i11;
+                    int i12 = i;
+                    s1 s1Var2 = s1Var;
+                    switch (i112) {
+                        case 0:
+                            a3.d dVar = s1Var2.f7563a;
+                            dVar.getClass();
+                            float f11 = UptodownApp.I;
+                            if (b4.d.t()) {
+                                UserCommentsActivity userCommentsActivity = (UserCommentsActivity) dVar.f63b;
+                                e4.b1 b1Var = userCommentsActivity.Q;
+                                b1Var.getClass();
+                                userCommentsActivity.i0(((k2) b1Var.f4494a.get(i12)).f11263n);
+                            }
+                            break;
+                        case 1:
+                            a3.d dVar2 = s1Var2.f7563a;
+                            dVar2.getClass();
+                            float f12 = UptodownApp.I;
+                            if (b4.d.t()) {
+                                UserCommentsActivity userCommentsActivity2 = (UserCommentsActivity) dVar2.f63b;
+                                e4.b1 b1Var2 = userCommentsActivity2.Q;
+                                b1Var2.getClass();
+                                userCommentsActivity2.i0(((k2) b1Var2.f4494a.get(i12)).f11263n);
+                            }
+                            break;
+                        default:
+                            UserCommentsActivity userCommentsActivity3 = (UserCommentsActivity) s1Var2.f7563a.f63b;
+                            float f13 = UptodownApp.I;
+                            if (b4.d.t() && userCommentsActivity3.T()) {
+                                Intent intent = new Intent(userCommentsActivity3, (Class<?>) RepliesActivity.class);
+                                e4.b1 b1Var3 = userCommentsActivity3.Q;
+                                b1Var3.getClass();
+                                Object obj2 = b1Var3.f4494a.get(i12);
+                                obj2.getClass();
+                                k2 k2Var2 = (k2) obj2;
+                                k2Var2.v = ((w2) userCommentsActivity3.z0().f1437e.getValue()).d() ? 1 : 0;
+                                k2Var2.f11271w = ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11437o;
+                                k2Var2.f11260b = ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11432a;
+                                intent.putExtra("review", k2Var2);
+                                intent.putExtra("appId", k2Var2.f11263n);
+                                intent.putExtra("username", ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11435m);
+                                intent.putExtra("appName", k2Var2.f11270u);
+                                intent.putExtra("appIconUrl", k2Var2.f11262m);
+                                intent.putExtra("userAvatarUrl", ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11434l);
+                                userCommentsActivity3.startActivity(intent, b4.d.a(userCommentsActivity3));
+                                break;
+                            }
+                            break;
+                    }
+                }
+            });
+            linearLayout2.setOnClickListener(new g4.a(s1Var, i, k2Var));
+            final int i12 = 2;
+            linearLayout.setOnClickListener(new View.OnClickListener() { // from class: m5.r1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    int i112 = i12;
+                    int i122 = i;
+                    s1 s1Var2 = s1Var;
+                    switch (i112) {
+                        case 0:
+                            a3.d dVar = s1Var2.f7563a;
+                            dVar.getClass();
+                            float f11 = UptodownApp.I;
+                            if (b4.d.t()) {
+                                UserCommentsActivity userCommentsActivity = (UserCommentsActivity) dVar.f63b;
+                                e4.b1 b1Var = userCommentsActivity.Q;
+                                b1Var.getClass();
+                                userCommentsActivity.i0(((k2) b1Var.f4494a.get(i122)).f11263n);
+                            }
+                            break;
+                        case 1:
+                            a3.d dVar2 = s1Var2.f7563a;
+                            dVar2.getClass();
+                            float f12 = UptodownApp.I;
+                            if (b4.d.t()) {
+                                UserCommentsActivity userCommentsActivity2 = (UserCommentsActivity) dVar2.f63b;
+                                e4.b1 b1Var2 = userCommentsActivity2.Q;
+                                b1Var2.getClass();
+                                userCommentsActivity2.i0(((k2) b1Var2.f4494a.get(i122)).f11263n);
+                            }
+                            break;
+                        default:
+                            UserCommentsActivity userCommentsActivity3 = (UserCommentsActivity) s1Var2.f7563a.f63b;
+                            float f13 = UptodownApp.I;
+                            if (b4.d.t() && userCommentsActivity3.T()) {
+                                Intent intent = new Intent(userCommentsActivity3, (Class<?>) RepliesActivity.class);
+                                e4.b1 b1Var3 = userCommentsActivity3.Q;
+                                b1Var3.getClass();
+                                Object obj2 = b1Var3.f4494a.get(i122);
+                                obj2.getClass();
+                                k2 k2Var2 = (k2) obj2;
+                                k2Var2.v = ((w2) userCommentsActivity3.z0().f1437e.getValue()).d() ? 1 : 0;
+                                k2Var2.f11271w = ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11437o;
+                                k2Var2.f11260b = ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11432a;
+                                intent.putExtra("review", k2Var2);
+                                intent.putExtra("appId", k2Var2.f11263n);
+                                intent.putExtra("username", ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11435m);
+                                intent.putExtra("appName", k2Var2.f11270u);
+                                intent.putExtra("appIconUrl", k2Var2.f11262m);
+                                intent.putExtra("userAvatarUrl", ((w2) userCommentsActivity3.z0().f1437e.getValue()).f11434l);
+                                userCommentsActivity3.startActivity(intent, b4.d.a(userCommentsActivity3));
+                                break;
+                            }
+                            break;
+                    }
+                }
+            });
+            Spanned spannedA2 = k2Var.a();
+            textView2.setText(spannedA2 != null ? l7.m.K0(spannedA2) : null);
+            textView2.getViewTreeObserver().addOnPreDrawListener(new h1(s1Var, 1));
+            s1Var.f7569p.setOnClickListener(new m5.u0(s1Var, 4));
+            s1Var.v.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_on));
+            imageView5.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_off));
+            imageView4.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_off));
+            imageView3.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_off));
+            ImageView imageView8 = imageView;
+            imageView8.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_off));
+            if (k2Var.f11265p >= 2) {
+                imageView5.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_on));
+            }
+            if (k2Var.f11265p >= 3) {
+                imageView4.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_on));
+            }
+            if (k2Var.f11265p >= 4) {
+                imageView3.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_on));
+            }
+            if (k2Var.f11265p == 5) {
+                imageView8.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vector_star_on));
+            }
+        }
+    }
+
+    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        viewGroup.getClass();
+        if (i != 0) {
+            if (i == 1) {
+                return new m5.c0(androidx.lifecycle.l.E(viewGroup, R.layout.pb_loading_more_content, viewGroup, false));
+            }
+            com.google.gson.internal.a.p("viewType unknown");
+            return null;
+        }
+        View viewE = androidx.lifecycle.l.E(viewGroup, R.layout.review, viewGroup, false);
+        Context context = viewGroup.getContext();
+        context.getClass();
+        return new s1(this.f4495b, context, viewE);
+    }
+}

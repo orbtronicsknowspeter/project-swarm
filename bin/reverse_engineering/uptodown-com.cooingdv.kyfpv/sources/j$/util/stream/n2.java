@@ -1,0 +1,49 @@
+package j$.util.stream;
+
+import j$.util.Spliterator;
+import java.util.concurrent.CountedCompleter;
+import java.util.function.BinaryOperator;
+import java.util.function.LongFunction;
+
+/* JADX INFO: loaded from: classes2.dex */
+public class n2 extends d {
+    public final a h;
+    public final LongFunction i;
+    public final BinaryOperator j;
+
+    @Override // j$.util.stream.d, java.util.concurrent.CountedCompleter
+    public final void onCompletion(CountedCompleter countedCompleter) {
+        d dVar = this.f6172d;
+        if (dVar != null) {
+            this.f = (h2) this.j.apply((h2) ((n2) dVar).f, (h2) ((n2) this.f6173e).f);
+        }
+        super.onCompletion(countedCompleter);
+    }
+
+    public n2(a aVar, Spliterator spliterator, LongFunction longFunction, BinaryOperator binaryOperator) {
+        super(aVar, spliterator);
+        this.h = aVar;
+        this.i = longFunction;
+        this.j = binaryOperator;
+    }
+
+    public n2(n2 n2Var, Spliterator spliterator) {
+        super(n2Var, spliterator);
+        this.h = n2Var.h;
+        this.i = n2Var.i;
+        this.j = n2Var.j;
+    }
+
+    @Override // j$.util.stream.d
+    public d c(Spliterator spliterator) {
+        return new n2(this, spliterator);
+    }
+
+    @Override // j$.util.stream.d
+    /* JADX INFO: renamed from: f, reason: merged with bridge method [inline-methods] */
+    public final h2 a() {
+        z1 z1Var = (z1) this.i.apply(this.h.F(this.f6170b));
+        this.h.Q(this.f6170b, z1Var);
+        return z1Var.build();
+    }
+}

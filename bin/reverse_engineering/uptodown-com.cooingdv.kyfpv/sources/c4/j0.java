@@ -1,0 +1,543 @@
+package c4;
+
+import android.content.Context;
+import android.content.Intent;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.browser.trusted.sharing.ShareTarget;
+import androidx.fragment.app.Fragment;
+import com.uptodown.R;
+import com.uptodown.UptodownApp;
+import com.uptodown.activities.AppDetailActivity;
+import com.uptodown.activities.PublicListActivity;
+import com.uptodown.activities.RecommendedActivity;
+import com.uptodown.activities.RepliesActivity;
+import com.uptodown.activities.WishlistActivity;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class j0 extends v6.i implements d7.p {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ int f1745a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public int f1746b;
+
+    /* JADX INFO: renamed from: l, reason: collision with root package name */
+    public final /* synthetic */ long f1747l;
+
+    /* JADX INFO: renamed from: m, reason: collision with root package name */
+    public final /* synthetic */ Object f1748m;
+
+    /* JADX INFO: renamed from: n, reason: collision with root package name */
+    public final /* synthetic */ Object f1749n;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public j0(v8 v8Var, Context context, long j, int i, t6.c cVar) {
+        super(2, cVar);
+        this.f1745a = 5;
+        this.f1748m = v8Var;
+        this.f1749n = context;
+        this.f1747l = j;
+        this.f1746b = i;
+    }
+
+    @Override // v6.a
+    public final t6.c create(Object obj, t6.c cVar) {
+        switch (this.f1745a) {
+            case 0:
+                return new j0((k0) this.f1748m, this.f1747l, (String) this.f1749n, cVar, 0);
+            case 1:
+                return new j0((PublicListActivity) this.f1748m, this.f1747l, (x4.j) this.f1749n, cVar, 1);
+            case 2:
+                return new j0((RecommendedActivity) this.f1748m, this.f1747l, (String) this.f1749n, cVar, 2);
+            case 3:
+                return new j0((RecommendedActivity) this.f1748m, this.f1747l, (x4.j) this.f1749n, cVar, 3);
+            case 4:
+                return new j0((v8) this.f1748m, (RepliesActivity) this.f1749n, this.f1747l, cVar);
+            case 5:
+                return new j0((v8) this.f1748m, (Context) this.f1749n, this.f1747l, this.f1746b, cVar);
+            case 6:
+                return new j0((WishlistActivity) this.f1748m, this.f1747l, (String) this.f1749n, cVar, 6);
+            case 7:
+                return new j0((WishlistActivity) this.f1748m, this.f1747l, (x4.j) this.f1749n, cVar, 7);
+            case 8:
+                return new j0((k0) this.f1748m, this.f1747l, (n5.d) this.f1749n, cVar, 8);
+            case 9:
+                return new j0((u4.z0) this.f1748m, this.f1747l, (String) this.f1749n, this.f1746b, cVar, 9);
+            default:
+                return new j0((u4.m1) this.f1748m, this.f1747l, (String) this.f1749n, this.f1746b, cVar, 10);
+        }
+    }
+
+    @Override // d7.p
+    public final Object invoke(Object obj, Object obj2) throws Throwable {
+        o7.a0 a0Var = (o7.a0) obj;
+        t6.c cVar = (t6.c) obj2;
+        switch (this.f1745a) {
+            case 0:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 1:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 2:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 3:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 4:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 5:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 6:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 7:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 8:
+                return ((j0) create(a0Var, cVar)).invokeSuspend(p6.x.f8464a);
+            case 9:
+                j0 j0Var = (j0) create(a0Var, cVar);
+                p6.x xVar = p6.x.f8464a;
+                j0Var.invokeSuspend(xVar);
+                return xVar;
+            default:
+                j0 j0Var2 = (j0) create(a0Var, cVar);
+                p6.x xVar2 = p6.x.f8464a;
+                j0Var2.invokeSuspend(xVar2);
+                return xVar2;
+        }
+    }
+
+    @Override // v6.a
+    public final Object invokeSuspend(Object obj) throws Throwable {
+        Object objA;
+        Object objA2;
+        Object objA3;
+        Object objA4;
+        Object objC;
+        JSONObject jSONObject;
+        Object objA5;
+        Object objA6;
+        Object objA7;
+        int i = this.f1745a;
+        long j = this.f1747l;
+        u6.a aVar = u6.a.f10763a;
+        p6.x xVar = p6.x.f8464a;
+        Object obj2 = this.f1749n;
+        Object obj3 = this.f1748m;
+        switch (i) {
+            case 0:
+                k0 k0Var = (k0) obj3;
+                int i6 = this.f1746b;
+                if (i6 != 0) {
+                    if (i6 != 1) {
+                        androidx.privacysandbox.ads.adservices.customaudience.a.i("call to 'resume' before 'invoke' with coroutine");
+                    } else {
+                        p6.a.e(obj);
+                        objA = ((p6.k) obj).f8445a;
+                    }
+                    break;
+                } else {
+                    p6.a.e(obj);
+                    e1.s0 s0Var = new e1.s0(k0Var, j);
+                    this.f1746b = 1;
+                    objA = s0Var.a(this);
+                    if (objA == aVar) {
+                    }
+                }
+                if (!(objA instanceof p6.j)) {
+                    x4.g gVar = (x4.g) objA;
+                    if (!k0Var.isFinishing()) {
+                        Intent intent = new Intent(k0Var, (Class<?>) AppDetailActivity.class);
+                        intent.putExtra("appInfo", gVar);
+                        float f = UptodownApp.I;
+                        k0Var.startActivity(intent, b4.d.a(k0Var));
+                    }
+                }
+                String str = (String) obj2;
+                Throwable thA = p6.k.a(objA);
+                if (thA != null) {
+                    int i10 = s4.y0.f9324l;
+                    if (d0.b.J(thA)) {
+                        k0Var.J();
+                    } else if (str == null || str.length() == 0) {
+                        String string = k0Var.getString(R.string.app_detail_not_found);
+                        string.getClass();
+                        k0Var.A(string);
+                    } else {
+                        j5.c.e(k0Var, str, null);
+                    }
+                }
+                break;
+            case 1:
+                PublicListActivity publicListActivity = (PublicListActivity) obj3;
+                int i11 = this.f1746b;
+                if (i11 != 0) {
+                    if (i11 != 1) {
+                        androidx.privacysandbox.ads.adservices.customaudience.a.i("call to 'resume' before 'invoke' with coroutine");
+                    } else {
+                        p6.a.e(obj);
+                        objA2 = ((p6.k) obj).f8445a;
+                    }
+                    break;
+                } else {
+                    p6.a.e(obj);
+                    e1.s0 s0Var2 = new e1.s0(publicListActivity, j);
+                    this.f1746b = 1;
+                    objA2 = s0Var2.a(this);
+                    if (objA2 == aVar) {
+                    }
+                }
+                x4.j jVar = (x4.j) obj2;
+                if (!(objA2 instanceof p6.j)) {
+                    x4.g gVar2 = (x4.g) objA2;
+                    if (!publicListActivity.isFinishing()) {
+                        Intent intent2 = new Intent(publicListActivity, (Class<?>) AppDetailActivity.class);
+                        intent2.putExtra("appInfo", gVar2);
+                        intent2.putExtra("viewCategory", jVar);
+                        float f10 = UptodownApp.I;
+                        publicListActivity.startActivity(intent2, b4.d.a(publicListActivity));
+                    }
+                }
+                Throwable thA2 = p6.k.a(objA2);
+                if (thA2 != null) {
+                    int i12 = s4.y0.f9324l;
+                    if (d0.b.J(thA2)) {
+                        publicListActivity.J();
+                    } else {
+                        String string2 = publicListActivity.getString(R.string.app_detail_not_found);
+                        string2.getClass();
+                        publicListActivity.A(string2);
+                    }
+                }
+                break;
+            case 2:
+                RecommendedActivity recommendedActivity = (RecommendedActivity) obj3;
+                int i13 = this.f1746b;
+                if (i13 != 0) {
+                    if (i13 != 1) {
+                        androidx.privacysandbox.ads.adservices.customaudience.a.i("call to 'resume' before 'invoke' with coroutine");
+                    } else {
+                        p6.a.e(obj);
+                        objA3 = ((p6.k) obj).f8445a;
+                    }
+                    break;
+                } else {
+                    p6.a.e(obj);
+                    e1.s0 s0Var3 = new e1.s0(recommendedActivity, j);
+                    this.f1746b = 1;
+                    objA3 = s0Var3.a(this);
+                    if (objA3 == aVar) {
+                    }
+                }
+                if (!(objA3 instanceof p6.j)) {
+                    x4.g gVar3 = (x4.g) objA3;
+                    if (!recommendedActivity.isFinishing()) {
+                        Intent intent3 = new Intent(recommendedActivity, (Class<?>) AppDetailActivity.class);
+                        intent3.putExtra("appInfo", gVar3);
+                        ActivityResultLauncher activityResultLauncher = recommendedActivity.f3344f0;
+                        float f11 = UptodownApp.I;
+                        activityResultLauncher.launch(intent3, b4.d.b(recommendedActivity));
+                    }
+                }
+                String str2 = (String) obj2;
+                Throwable thA3 = p6.k.a(objA3);
+                if (thA3 != null) {
+                    int i14 = s4.y0.f9324l;
+                    if (d0.b.J(thA3)) {
+                        recommendedActivity.J();
+                    } else if (str2 == null || str2.length() == 0) {
+                        String message = thA3.getMessage();
+                        if (message != null && message.length() != 0) {
+                            String message2 = thA3.getMessage();
+                            message2.getClass();
+                            recommendedActivity.A(message2);
+                        }
+                    } else {
+                        j5.c.e(recommendedActivity, str2, null);
+                    }
+                }
+                break;
+            case 3:
+                RecommendedActivity recommendedActivity2 = (RecommendedActivity) obj3;
+                int i15 = this.f1746b;
+                if (i15 != 0) {
+                    if (i15 != 1) {
+                        androidx.privacysandbox.ads.adservices.customaudience.a.i("call to 'resume' before 'invoke' with coroutine");
+                    } else {
+                        p6.a.e(obj);
+                        objA4 = ((p6.k) obj).f8445a;
+                    }
+                    break;
+                } else {
+                    p6.a.e(obj);
+                    e1.s0 s0Var4 = new e1.s0(recommendedActivity2, j);
+                    this.f1746b = 1;
+                    objA4 = s0Var4.a(this);
+                    if (objA4 == aVar) {
+                    }
+                }
+                x4.j jVar2 = (x4.j) obj2;
+                if (!(objA4 instanceof p6.j)) {
+                    x4.g gVar4 = (x4.g) objA4;
+                    if (!recommendedActivity2.isFinishing()) {
+                        Intent intent4 = new Intent(recommendedActivity2, (Class<?>) AppDetailActivity.class);
+                        intent4.putExtra("appInfo", gVar4);
+                        intent4.putExtra("viewCategory", jVar2);
+                        ActivityResultLauncher activityResultLauncher2 = recommendedActivity2.f3344f0;
+                        float f12 = UptodownApp.I;
+                        activityResultLauncher2.launch(intent4, b4.d.b(recommendedActivity2));
+                    }
+                }
+                Throwable thA4 = p6.k.a(objA4);
+                if (thA4 != null) {
+                    int i16 = s4.y0.f9324l;
+                    if (d0.b.J(thA4)) {
+                        recommendedActivity2.J();
+                    } else {
+                        String message3 = thA4.getMessage();
+                        if (message3 != null && message3.length() != 0) {
+                            String message4 = thA4.getMessage();
+                            message4.getClass();
+                            recommendedActivity2.N(message4);
+                        }
+                    }
+                }
+                break;
+            case 4:
+                v8 v8Var = (v8) obj3;
+                int i17 = this.f1746b;
+                if (i17 != 0) {
+                    if (i17 != 1) {
+                        androidx.privacysandbox.ads.adservices.customaudience.a.i("call to 'resume' before 'invoke' with coroutine");
+                    } else {
+                        p6.a.e(obj);
+                        objC = obj;
+                    }
+                    break;
+                } else {
+                    p6.a.e(obj);
+                    v8Var.f2226s = false;
+                    this.f1746b = 1;
+                    v7.e eVar = o7.m0.f8289a;
+                    objC = o7.c0.C(new j0(v8Var, (RepliesActivity) obj2, this.f1747l, 0, (t6.c) null), v7.d.f10885a, this);
+                    if (objC == aVar) {
+                    }
+                }
+                r7.o0 o0Var = v8Var.f2213a;
+                j5.r rVar = new j5.r(new r8((ArrayList) objC, false));
+                o0Var.getClass();
+                o0Var.g(null, rVar);
+                break;
+            case 5:
+                p6.a.e(obj);
+                v8 v8Var2 = (v8) obj3;
+                v8Var2.f2225r = true;
+                r7.o0 o0Var2 = v8Var2.f2213a;
+                o0Var2.getClass();
+                o0Var2.g(null, j5.p.f6706a);
+                ArrayList arrayList = new ArrayList();
+                j5.v vVar = new j5.v((Context) obj2);
+                int i18 = this.f1746b;
+                HashMap map = new HashMap();
+                map.put("page[limit]", String.valueOf(10));
+                map.put("page[offset]", String.valueOf(i18));
+                x4.g2 g2VarK = vVar.k(k0.k.g(j, "https://www.uptodown.app:443/eapi/comments/", "/answers"), map, ShareTarget.METHOD_GET, false);
+                g2VarK.f11207d = vVar.i(g2VarK, "/eapi/comments/idReview/answers");
+                if (g2VarK.b() || (jSONObject = g2VarK.f11207d) == null) {
+                    v8Var2.f2226s = true;
+                } else {
+                    JSONArray jSONArrayOptJSONArray = jSONObject.optJSONArray("data");
+                    if (jSONObject.optInt("success") == 1 && jSONArrayOptJSONArray != null) {
+                        ArrayList arrayList2 = new ArrayList();
+                        try {
+                            int length = jSONArrayOptJSONArray.length();
+                            for (int i19 = 0; i19 < length; i19++) {
+                                JSONObject jSONObjectOptJSONObject = jSONArrayOptJSONArray.optJSONObject(i19);
+                                jSONObjectOptJSONObject.getClass();
+                                arrayList2.add(q1.a.g(jSONObjectOptJSONObject));
+                            }
+                        } catch (Exception e10) {
+                            e10.printStackTrace();
+                        }
+                        arrayList.addAll(arrayList2);
+                        if (jSONArrayOptJSONArray.length() == 0) {
+                            v8Var2.f2226s = true;
+                        }
+                    }
+                }
+                v8Var2.f2225r = false;
+                break;
+            case 6:
+                WishlistActivity wishlistActivity = (WishlistActivity) obj3;
+                int i20 = this.f1746b;
+                if (i20 != 0) {
+                    if (i20 != 1) {
+                        androidx.privacysandbox.ads.adservices.customaudience.a.i("call to 'resume' before 'invoke' with coroutine");
+                    } else {
+                        p6.a.e(obj);
+                        objA5 = ((p6.k) obj).f8445a;
+                    }
+                    break;
+                } else {
+                    p6.a.e(obj);
+                    e1.s0 s0Var5 = new e1.s0(wishlistActivity, j);
+                    this.f1746b = 1;
+                    objA5 = s0Var5.a(this);
+                    if (objA5 == aVar) {
+                    }
+                }
+                if (!(objA5 instanceof p6.j)) {
+                    x4.g gVar5 = (x4.g) objA5;
+                    if (!wishlistActivity.isFinishing()) {
+                        Intent intent5 = new Intent(wishlistActivity, (Class<?>) AppDetailActivity.class);
+                        intent5.putExtra("appInfo", gVar5);
+                        ActivityResultLauncher activityResultLauncher3 = wishlistActivity.f3372e0;
+                        float f13 = UptodownApp.I;
+                        activityResultLauncher3.launch(intent5, b4.d.b(wishlistActivity));
+                    }
+                }
+                String str3 = (String) obj2;
+                Throwable thA5 = p6.k.a(objA5);
+                if (thA5 != null) {
+                    int i21 = s4.y0.f9324l;
+                    if (d0.b.J(thA5)) {
+                        wishlistActivity.J();
+                    } else if (str3 == null || str3.length() == 0) {
+                        String message5 = thA5.getMessage();
+                        if (message5 != null && message5.length() != 0) {
+                            String message6 = thA5.getMessage();
+                            message6.getClass();
+                            wishlistActivity.A(message6);
+                        }
+                    } else {
+                        j5.c.e(wishlistActivity, str3, null);
+                    }
+                }
+                break;
+            case 7:
+                WishlistActivity wishlistActivity2 = (WishlistActivity) obj3;
+                int i22 = this.f1746b;
+                if (i22 != 0) {
+                    if (i22 != 1) {
+                        androidx.privacysandbox.ads.adservices.customaudience.a.i("call to 'resume' before 'invoke' with coroutine");
+                    } else {
+                        p6.a.e(obj);
+                        objA6 = ((p6.k) obj).f8445a;
+                    }
+                    break;
+                } else {
+                    p6.a.e(obj);
+                    e1.s0 s0Var6 = new e1.s0(wishlistActivity2, j);
+                    this.f1746b = 1;
+                    objA6 = s0Var6.a(this);
+                    if (objA6 == aVar) {
+                    }
+                }
+                x4.j jVar3 = (x4.j) obj2;
+                if (!(objA6 instanceof p6.j)) {
+                    x4.g gVar6 = (x4.g) objA6;
+                    if (!wishlistActivity2.isFinishing()) {
+                        Intent intent6 = new Intent(wishlistActivity2, (Class<?>) AppDetailActivity.class);
+                        intent6.putExtra("appInfo", gVar6);
+                        intent6.putExtra("viewCategory", jVar3);
+                        ActivityResultLauncher activityResultLauncher4 = wishlistActivity2.f3372e0;
+                        float f14 = UptodownApp.I;
+                        activityResultLauncher4.launch(intent6, b4.d.b(wishlistActivity2));
+                    }
+                }
+                Throwable thA6 = p6.k.a(objA6);
+                if (thA6 != null) {
+                    int i23 = s4.y0.f9324l;
+                    if (d0.b.J(thA6)) {
+                        wishlistActivity2.J();
+                    } else {
+                        String message7 = thA6.getMessage();
+                        if (message7 != null && message7.length() != 0) {
+                            String message8 = thA6.getMessage();
+                            message8.getClass();
+                            wishlistActivity2.N(message8);
+                        }
+                    }
+                }
+                break;
+            case 8:
+                k0 k0Var2 = (k0) obj3;
+                int i24 = this.f1746b;
+                if (i24 != 0) {
+                    if (i24 != 1) {
+                        androidx.privacysandbox.ads.adservices.customaudience.a.i("call to 'resume' before 'invoke' with coroutine");
+                    } else {
+                        p6.a.e(obj);
+                        objA7 = ((p6.k) obj).f8445a;
+                    }
+                    break;
+                } else {
+                    p6.a.e(obj);
+                    e1.s0 s0Var7 = new e1.s0(k0Var2, j);
+                    this.f1746b = 1;
+                    objA7 = s0Var7.a(this);
+                    if (objA7 == aVar) {
+                    }
+                }
+                n5.d dVar = (n5.d) obj2;
+                if (!(objA7 instanceof p6.j)) {
+                    x4.g gVar7 = (x4.g) objA7;
+                    gVar7.getClass();
+                    dVar.f8070a = gVar7;
+                    if (dVar.f8071b.getVisibility() == 0) {
+                        dVar.d(k0Var2);
+                        if (dVar.f8070a.B0 == 1) {
+                            dVar.h(k0Var2);
+                        } else {
+                            n5.d.a(k0Var2, dVar);
+                        }
+                    }
+                }
+                break;
+            case 9:
+                p6.a.e(obj);
+                Context contextRequireContext = ((u4.z0) obj3).requireContext();
+                contextRequireContext.getClass();
+                new j5.v(contextRequireContext).C(this.f1747l, (String) obj2, "parentCategoryFeature", this.f1746b);
+                break;
+            default:
+                p6.a.e(obj);
+                Context contextRequireContext2 = ((u4.m1) obj3).requireContext();
+                contextRequireContext2.getClass();
+                new j5.v(contextRequireContext2).C(this.f1747l, (String) obj2, "homeFeature", this.f1746b);
+                break;
+        }
+        return xVar;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public /* synthetic */ j0(k0 k0Var, long j, Object obj, t6.c cVar, int i) {
+        super(2, cVar);
+        this.f1745a = i;
+        this.f1748m = k0Var;
+        this.f1747l = j;
+        this.f1749n = obj;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public /* synthetic */ j0(Fragment fragment, long j, String str, int i, t6.c cVar, int i6) {
+        super(2, cVar);
+        this.f1745a = i6;
+        this.f1748m = fragment;
+        this.f1747l = j;
+        this.f1749n = str;
+        this.f1746b = i;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public j0(v8 v8Var, RepliesActivity repliesActivity, long j, t6.c cVar) {
+        super(2, cVar);
+        this.f1745a = 4;
+        this.f1748m = v8Var;
+        this.f1749n = repliesActivity;
+        this.f1747l = j;
+    }
+}

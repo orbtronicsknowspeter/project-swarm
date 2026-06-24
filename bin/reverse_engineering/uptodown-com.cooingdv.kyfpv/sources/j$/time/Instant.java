@@ -1,0 +1,246 @@
+package j$.time;
+
+import androidx.core.location.LocationRequestCompat;
+import j$.time.format.DateTimeFormatter;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+
+/* JADX INFO: loaded from: classes2.dex */
+public final class Instant implements j$.time.temporal.m, j$.time.temporal.o, Comparable<Instant>, Serializable {
+    private static final long serialVersionUID = -665713676816604388L;
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final long f5738a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final int f5739b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public static final Instant f5737c = new Instant(0, 0);
+    public static final Instant MIN = w(-31557014167219200L, 0);
+    public static final Instant MAX = w(31556889864403199L, 999999999);
+
+    @Override // java.lang.Comparable
+    public final int compareTo(Instant instant) {
+        Instant instant2 = instant;
+        int iCompare = Long.compare(this.f5738a, instant2.f5738a);
+        return iCompare != 0 ? iCompare : this.f5739b - instant2.f5739b;
+    }
+
+    public static Instant w(long j, long j6) {
+        return v(j$.com.android.tools.r8.a.x(j, j$.com.android.tools.r8.a.B(j6, 1000000000L)), (int) j$.com.android.tools.r8.a.A(j6, 1000000000L));
+    }
+
+    public static Instant ofEpochMilli(long j) {
+        long j6 = 1000;
+        return v(j$.com.android.tools.r8.a.B(j, j6), ((int) j$.com.android.tools.r8.a.A(j, j6)) * 1000000);
+    }
+
+    public static Instant v(long j, int i) {
+        if ((((long) i) | j) == 0) {
+            return f5737c;
+        }
+        if (j < -31557014167219200L || j > 31556889864403199L) {
+            throw new b("Instant exceeds minimum or maximum instant");
+        }
+        return new Instant(j, i);
+    }
+
+    public Instant(long j, int i) {
+        this.f5738a = j;
+        this.f5739b = i;
+    }
+
+    @Override // j$.time.temporal.n
+    public final boolean c(j$.time.temporal.q qVar) {
+        return qVar instanceof j$.time.temporal.a ? qVar == j$.time.temporal.a.INSTANT_SECONDS || qVar == j$.time.temporal.a.NANO_OF_SECOND || qVar == j$.time.temporal.a.MICRO_OF_SECOND || qVar == j$.time.temporal.a.MILLI_OF_SECOND : qVar != null && qVar.e(this);
+    }
+
+    @Override // j$.time.temporal.n
+    public final j$.time.temporal.u g(j$.time.temporal.q qVar) {
+        return j$.time.temporal.r.d(this, qVar);
+    }
+
+    @Override // j$.time.temporal.n
+    public final int e(j$.time.temporal.q qVar) {
+        if (!(qVar instanceof j$.time.temporal.a)) {
+            return j$.time.temporal.r.d(this, qVar).a(qVar.g(this), qVar);
+        }
+        int i = e.f5815a[((j$.time.temporal.a) qVar).ordinal()];
+        if (i == 1) {
+            return this.f5739b;
+        }
+        if (i == 2) {
+            return this.f5739b / 1000;
+        }
+        if (i == 3) {
+            return this.f5739b / 1000000;
+        }
+        if (i == 4) {
+            j$.time.temporal.a aVar = j$.time.temporal.a.INSTANT_SECONDS;
+            aVar.f5899b.a(this.f5738a, aVar);
+        }
+        throw new j$.time.temporal.t(c.a("Unsupported field: ", qVar));
+    }
+
+    @Override // j$.time.temporal.n
+    public final long q(j$.time.temporal.q qVar) {
+        int i;
+        if (!(qVar instanceof j$.time.temporal.a)) {
+            return qVar.g(this);
+        }
+        int i6 = e.f5815a[((j$.time.temporal.a) qVar).ordinal()];
+        if (i6 == 1) {
+            i = this.f5739b;
+        } else if (i6 == 2) {
+            i = this.f5739b / 1000;
+        } else {
+            if (i6 != 3) {
+                if (i6 == 4) {
+                    return this.f5738a;
+                }
+                throw new j$.time.temporal.t(c.a("Unsupported field: ", qVar));
+            }
+            i = this.f5739b / 1000000;
+        }
+        return i;
+    }
+
+    @Override // j$.time.temporal.m
+    public final j$.time.temporal.m a(long j, j$.time.temporal.q qVar) {
+        if (!(qVar instanceof j$.time.temporal.a)) {
+            return (Instant) qVar.j(this, j);
+        }
+        j$.time.temporal.a aVar = (j$.time.temporal.a) qVar;
+        aVar.k(j);
+        int i = e.f5815a[aVar.ordinal()];
+        if (i != 1) {
+            if (i == 2) {
+                int i6 = ((int) j) * 1000;
+                if (i6 != this.f5739b) {
+                    return v(this.f5738a, i6);
+                }
+            } else if (i == 3) {
+                int i10 = ((int) j) * 1000000;
+                if (i10 != this.f5739b) {
+                    return v(this.f5738a, i10);
+                }
+            } else {
+                if (i != 4) {
+                    throw new j$.time.temporal.t(c.a("Unsupported field: ", qVar));
+                }
+                if (j != this.f5738a) {
+                    return v(j, this.f5739b);
+                }
+            }
+        } else if (j != this.f5739b) {
+            return v(this.f5738a, (int) j);
+        }
+        return this;
+    }
+
+    @Override // j$.time.temporal.m
+    /* JADX INFO: renamed from: y, reason: merged with bridge method [inline-methods] */
+    public final Instant b(long j, j$.time.temporal.s sVar) {
+        if (!(sVar instanceof j$.time.temporal.b)) {
+            return (Instant) sVar.e(this, j);
+        }
+        switch (e.f5816b[((j$.time.temporal.b) sVar).ordinal()]) {
+            case 1:
+                return x(0L, j);
+            case 2:
+                return x(j / 1000000, (j % 1000000) * 1000);
+            case 3:
+                return x(j / 1000, (j % 1000) * 1000000);
+            case 4:
+                return x(j, 0L);
+            case 5:
+                return x(j$.com.android.tools.r8.a.w(j, 60), 0L);
+            case 6:
+                return x(j$.com.android.tools.r8.a.w(j, 3600), 0L);
+            case 7:
+                return x(j$.com.android.tools.r8.a.w(j, 43200), 0L);
+            case 8:
+                return x(j$.com.android.tools.r8.a.w(j, 86400), 0L);
+            default:
+                g.b(sVar, "Unsupported unit: ");
+                return null;
+        }
+    }
+
+    public final Instant x(long j, long j6) {
+        if ((j | j6) == 0) {
+            return this;
+        }
+        return w(j$.com.android.tools.r8.a.x(j$.com.android.tools.r8.a.x(this.f5738a, j), j6 / 1000000000), ((long) this.f5739b) + (j6 % 1000000000));
+    }
+
+    @Override // j$.time.temporal.m
+    public final j$.time.temporal.m n(long j, j$.time.temporal.b bVar) {
+        return j == Long.MIN_VALUE ? b(LocationRequestCompat.PASSIVE_INTERVAL, bVar).b(1L, bVar) : b(-j, bVar);
+    }
+
+    @Override // j$.time.temporal.n
+    public final Object k(j$.time.format.a aVar) {
+        if (aVar == j$.time.temporal.r.f5919c) {
+            return j$.time.temporal.b.NANOS;
+        }
+        if (aVar == j$.time.temporal.r.f5918b || aVar == j$.time.temporal.r.f5917a || aVar == j$.time.temporal.r.f5921e || aVar == j$.time.temporal.r.f5920d || aVar == j$.time.temporal.r.f || aVar == j$.time.temporal.r.g) {
+            return null;
+        }
+        return aVar.a(this);
+    }
+
+    @Override // j$.time.temporal.o
+    public final j$.time.temporal.m j(j$.time.temporal.m mVar) {
+        return mVar.a(this.f5738a, j$.time.temporal.a.INSTANT_SECONDS).a(this.f5739b, j$.time.temporal.a.NANO_OF_SECOND);
+    }
+
+    public OffsetDateTime atOffset(ZoneOffset zoneOffset) {
+        return OffsetDateTime.v(this, zoneOffset);
+    }
+
+    public long toEpochMilli() {
+        long j = this.f5738a;
+        if (j < 0 && this.f5739b > 0) {
+            return j$.com.android.tools.r8.a.x(j$.com.android.tools.r8.a.w(j + 1, 1000), (this.f5739b / 1000000) - 1000);
+        }
+        return j$.com.android.tools.r8.a.x(j$.com.android.tools.r8.a.w(j, 1000), this.f5739b / 1000000);
+    }
+
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Instant) {
+            Instant instant = (Instant) obj;
+            if (this.f5738a == instant.f5738a && this.f5739b == instant.f5739b) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        long j = this.f5738a;
+        return (this.f5739b * 51) + ((int) (j ^ (j >>> 32)));
+    }
+
+    public final String toString() {
+        return DateTimeFormatter.f5819e.a(this);
+    }
+
+    private Object writeReplace() {
+        return new s((byte) 2, this);
+    }
+
+    private void readObject(ObjectInputStream objectInputStream) throws InvalidObjectException {
+        throw new InvalidObjectException("Deserialization via serialization delegate");
+    }
+
+    @Override // j$.time.temporal.m
+    public final j$.time.temporal.m f(h hVar) {
+        return (Instant) j$.com.android.tools.r8.a.a(hVar, this);
+    }
+}

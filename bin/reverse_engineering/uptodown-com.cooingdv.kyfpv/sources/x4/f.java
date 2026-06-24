@@ -1,0 +1,53 @@
+package x4;
+
+/* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
+/* JADX WARN: Unknown enum class pattern. Please report as an issue! */
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class f {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public static final f f11144a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public static final f f11145b;
+
+    /* JADX INFO: renamed from: l, reason: collision with root package name */
+    public static final f f11146l;
+
+    /* JADX INFO: renamed from: m, reason: collision with root package name */
+    public static final f f11147m;
+
+    /* JADX INFO: renamed from: n, reason: collision with root package name */
+    public static final f f11148n;
+
+    /* JADX INFO: renamed from: o, reason: collision with root package name */
+    public static final f f11149o;
+
+    /* JADX INFO: renamed from: p, reason: collision with root package name */
+    public static final /* synthetic */ f[] f11150p;
+
+    static {
+        f fVar = new f("UPDATE", 0);
+        f11144a = fVar;
+        f fVar2 = new f("PROMOTED", 1);
+        f11145b = fVar2;
+        f fVar3 = new f("LATEST", 2);
+        f11146l = fVar3;
+        f fVar4 = new f("EDITOR_CHOICE", 3);
+        f11147m = fVar4;
+        f fVar5 = new f("TRENDING", 4);
+        f11148n = fVar5;
+        f fVar6 = new f("NONE", 5);
+        f11149o = fVar6;
+        f11150p = new f[]{fVar, fVar2, fVar3, fVar4, fVar5, fVar6};
+    }
+
+    public static f valueOf(String str) {
+        return (f) Enum.valueOf(f.class, str);
+    }
+
+    public static f[] values() {
+        return (f[]) f11150p.clone();
+    }
+}

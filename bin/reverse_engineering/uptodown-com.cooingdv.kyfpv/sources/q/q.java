@@ -1,0 +1,34 @@
+package q;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes.dex */
+public final class q extends c0 {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final Integer f8611a;
+
+    public q(Integer num) {
+        this.f8611a = num;
+    }
+
+    public final boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof c0)) {
+            return false;
+        }
+        Integer num = this.f8611a;
+        q qVar = (q) ((c0) obj);
+        return num == null ? qVar.f8611a == null : num.equals(qVar.f8611a);
+    }
+
+    public final int hashCode() {
+        Integer num = this.f8611a;
+        return (num == null ? 0 : num.hashCode()) ^ 1000003;
+    }
+
+    public final String toString() {
+        return "ExternalPRequestContext{originAssociatedProductId=" + this.f8611a + "}";
+    }
+}

@@ -1,0 +1,56 @@
+package c4;
+
+import android.widget.TextView;
+import com.uptodown.activities.UserDevicesActivity;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class oc implements r7.i {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ UserDevicesActivity f1966a;
+
+    public oc(UserDevicesActivity userDevicesActivity) {
+        this.f1966a = userDevicesActivity;
+    }
+
+    @Override // r7.i
+    public final Object emit(Object obj, t6.c cVar) {
+        j5.s sVar = (j5.s) obj;
+        boolean zA = kotlin.jvm.internal.l.a(sVar, j5.p.f6706a);
+        UserDevicesActivity userDevicesActivity = this.f1966a;
+        if (zA) {
+            userDevicesActivity.y0().f9765b.setVisibility(0);
+            userDevicesActivity.y0().f9766l.setVisibility(8);
+        } else {
+            if (sVar instanceof j5.r) {
+                rc rcVar = (rc) ((j5.r) sVar).f6708a;
+                x4.z2 z2Var = rcVar.f2058a;
+                ArrayList arrayList = rcVar.f2059b;
+                int i = UserDevicesActivity.R;
+                userDevicesActivity.y0().f9772r.f9677o.setTypeface(f4.c.f4883w);
+                userDevicesActivity.y0().f9772r.f9676n.setTypeface(f4.c.f4884x);
+                userDevicesActivity.y0().f9772r.f9677o.setText(z2Var.f11484l);
+                TextView textView = userDevicesActivity.y0().f9772r.f9676n;
+                long j = z2Var.f11489q;
+                textView.setText(j > 0 ? new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(j)) : null);
+                userDevicesActivity.y0().f9772r.f9673b.setOnClickListener(new c.e(19, userDevicesActivity, z2Var));
+                if (arrayList.isEmpty()) {
+                    userDevicesActivity.y0().f9769o.setVisibility(8);
+                } else {
+                    userDevicesActivity.y0().f9767m.setAdapter(new e4.d1(arrayList, new android.support.v4.media.g(4, userDevicesActivity, sVar)));
+                }
+                userDevicesActivity.y0().f9765b.setVisibility(8);
+                userDevicesActivity.y0().f9766l.setVisibility(0);
+            } else if (!kotlin.jvm.internal.l.a(sVar, j5.q.f6707a)) {
+                com.google.gson.internal.a.b();
+                return null;
+            }
+        }
+        return p6.x.f8464a;
+    }
+}

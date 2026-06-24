@@ -1,0 +1,52 @@
+package j$.util.stream;
+
+import java.util.Arrays;
+
+/* JADX INFO: loaded from: classes2.dex */
+public final class m6 extends a6 {
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    public Object[] f6290d;
+
+    /* JADX INFO: renamed from: e, reason: collision with root package name */
+    public int f6291e;
+
+    @Override // j$.util.stream.i5, j$.util.stream.m5
+    public final void c(long j) {
+        if (j >= 2147483639) {
+            j$.time.g.c("Stream size exceeds max array size");
+        } else {
+            this.f6290d = new Object[(int) j];
+        }
+    }
+
+    @Override // j$.util.stream.i5, j$.util.stream.m5
+    public final void end() {
+        int i = 0;
+        Arrays.sort(this.f6290d, 0, this.f6291e, this.f6136b);
+        long j = this.f6291e;
+        m5 m5Var = this.f6225a;
+        m5Var.c(j);
+        if (!this.f6137c) {
+            while (i < this.f6291e) {
+                m5Var.accept(this.f6290d[i]);
+                i++;
+            }
+        } else {
+            while (i < this.f6291e && !m5Var.e()) {
+                m5Var.accept(this.f6290d[i]);
+                i++;
+            }
+        }
+        m5Var.end();
+        this.f6290d = null;
+    }
+
+    @Override // java.util.function.Consumer
+    public final void accept(Object obj) {
+        Object[] objArr = this.f6290d;
+        int i = this.f6291e;
+        this.f6291e = i + 1;
+        objArr[i] = obj;
+    }
+}

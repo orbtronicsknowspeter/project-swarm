@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/bg_instaler_activity"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp">
+    <TextView
+        android:textSize="@dimen/text_size_m"
+        android:textColor="@color/text_secundary"
+        android:gravity="center"
+        android:id="@+id/tv_confirm_delete_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_l">
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tv_cancel_confirm_delete"
+            android:text="@string/option_button_cancel"
+            style="@style/DialogButtonsStyle"/>
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tv_delete_confirm_delete"
+            android:text="@string/option_button_delete"
+            android:layout_marginStart="@dimen/margin_l"
+            style="@style/DialogButtonsStyle"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,37 @@
+package x4;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class r2 extends v6.c {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public String f11377a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public kotlin.jvm.internal.v f11378b;
+
+    /* JADX INFO: renamed from: l, reason: collision with root package name */
+    public kotlin.jvm.internal.v f11379l;
+
+    /* JADX INFO: renamed from: m, reason: collision with root package name */
+    public /* synthetic */ Object f11380m;
+
+    /* JADX INFO: renamed from: n, reason: collision with root package name */
+    public final /* synthetic */ u2 f11381n;
+
+    /* JADX INFO: renamed from: o, reason: collision with root package name */
+    public int f11382o;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public r2(u2 u2Var, v6.c cVar) {
+        super(cVar);
+        this.f11381n = u2Var;
+    }
+
+    @Override // v6.a
+    public final Object invokeSuspend(Object obj) {
+        this.f11380m = obj;
+        this.f11382o |= Integer.MIN_VALUE;
+        return this.f11381n.d(null, null, this);
+    }
+}

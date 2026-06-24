@@ -1,0 +1,65 @@
+package j$.util.stream;
+
+import j$.util.Objects;
+import java.util.function.DoubleConsumer;
+
+/* JADX INFO: loaded from: classes2.dex */
+public final class w extends f5 {
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public boolean f6404b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public final j$.util.f0 f6405c;
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    public final /* synthetic */ x f6406d;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public w(x xVar, m5 m5Var) {
+        super(m5Var);
+        this.f6406d = xVar;
+        m5 m5Var2 = this.f6196a;
+        Objects.requireNonNull(m5Var2);
+        this.f6405c = new j$.util.f0(m5Var2, 1);
+    }
+
+    @Override // j$.util.stream.f5, j$.util.stream.m5
+    public final void c(long j) {
+        this.f6196a.c(-1L);
+    }
+
+    @Override // j$.util.stream.j5, java.util.function.DoubleConsumer
+    public final void accept(double d10) throws Exception {
+        e0 e0Var = (e0) ((j$.util.q) this.f6406d.f6421m).apply(d10);
+        if (e0Var != null) {
+            try {
+                boolean z9 = this.f6404b;
+                j$.util.f0 f0Var = this.f6405c;
+                if (!z9) {
+                    e0Var.sequential().forEach(f0Var);
+                } else {
+                    j$.util.v0 v0VarSpliterator = e0Var.sequential().spliterator();
+                    while (!this.f6196a.e() && v0VarSpliterator.tryAdvance((DoubleConsumer) f0Var)) {
+                    }
+                }
+            } catch (Throwable th) {
+                try {
+                    e0Var.close();
+                } catch (Throwable th2) {
+                    th.addSuppressed(th2);
+                }
+                throw th;
+            }
+        }
+        if (e0Var != null) {
+            e0Var.close();
+        }
+    }
+
+    @Override // j$.util.stream.f5, j$.util.stream.m5
+    public final boolean e() {
+        this.f6404b = true;
+        return this.f6196a.e();
+    }
+}

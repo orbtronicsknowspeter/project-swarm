@@ -1,0 +1,14 @@
+package j$.util.stream;
+
+/* JADX INFO: loaded from: classes2.dex */
+public abstract class y5 extends g5 {
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public boolean f6432b;
+
+    @Override // j$.util.stream.g5, j$.util.stream.m5
+    public final boolean e() {
+        this.f6432b = true;
+        return false;
+    }
+}

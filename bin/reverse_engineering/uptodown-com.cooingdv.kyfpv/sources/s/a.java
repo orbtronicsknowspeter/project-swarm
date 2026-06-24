@@ -1,0 +1,49 @@
+package s;
+
+import a4.x;
+import c.j;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes.dex */
+public final class a {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final int f9105a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final long f9106b;
+
+    public a(int i, long j) {
+        if (i == 0) {
+            com.google.gson.internal.a.i("Null status");
+            throw null;
+        }
+        this.f9105a = i;
+        this.f9106b = j;
+    }
+
+    public final boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof a)) {
+            return false;
+        }
+        a aVar = (a) obj;
+        return j.a(this.f9105a, aVar.f9105a) && this.f9106b == aVar.f9106b;
+    }
+
+    public final int hashCode() {
+        int iC = (j.c(this.f9105a) ^ 1000003) * 1000003;
+        long j = this.f9106b;
+        return iC ^ ((int) (j ^ (j >>> 32)));
+    }
+
+    public final String toString() {
+        StringBuilder sb = new StringBuilder("BackendResponse{status=");
+        int i = this.f9105a;
+        sb.append(i != 1 ? i != 2 ? i != 3 ? i != 4 ? "null" : "INVALID_PAYLOAD" : "FATAL_ERROR" : "TRANSIENT_ERROR" : "OK");
+        sb.append(", nextRequestWaitMillis=");
+        return x.l(sb, this.f9106b, "}");
+    }
+}

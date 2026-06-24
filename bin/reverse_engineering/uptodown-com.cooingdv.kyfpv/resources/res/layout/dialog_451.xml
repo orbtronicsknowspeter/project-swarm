@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog"
+    android:padding="@dimen/margin_l"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textSize="@dimen/text_size_xl"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:gravity="center"
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_s"
+        android:text="@string/error_451_title"/>
+    <TextView
+        android:textSize="@dimen/text_size_l"
+        android:textColor="@color/text_primary"
+        android:id="@+id/tv_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_l"
+        android:text="@string/error_451_message"/>
+    <TextView
+        android:textSize="@dimen/text_size_m"
+        android:textColor="@color/main_blue"
+        android:gravity="center_vertical"
+        android:id="@+id/tv_learn_more"
+        android:padding="@dimen/margin_s"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_l"
+        android:text="@string/error_451_more_info"
+        android:drawablePadding="@dimen/margin_m"
+        app:drawableEndCompat="@drawable/vector_arrow_right_blue"/>
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/tv_ok"
+        android:text="@string/ok"
+        style="@style/DialogButtonsStyle"/>
+</LinearLayout>

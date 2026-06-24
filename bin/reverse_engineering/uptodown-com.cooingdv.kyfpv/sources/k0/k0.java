@@ -1,0 +1,151 @@
+package k0;
+
+import android.content.Context;
+import android.content.ServiceConnection;
+import android.os.HandlerThread;
+import android.os.Looper;
+import androidx.lifecycle.CoroutineLiveDataKt;
+import androidx.work.PeriodicWorkRequest;
+import java.util.HashMap;
+import java.util.concurrent.Executor;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class k0 {
+    public static final Object g = new Object();
+    public static k0 h;
+    public static HandlerThread i;
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final HashMap f6901a = new HashMap();
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final Context f6902b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public volatile a4.c0 f6903c;
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    public final o0.a f6904d;
+
+    /* JADX INFO: renamed from: e, reason: collision with root package name */
+    public final long f6905e;
+    public final long f;
+
+    public k0(Context context, Looper looper) {
+        j0 j0Var = new j0(this);
+        this.f6902b = context.getApplicationContext();
+        a4.c0 c0Var = new a4.c0(looper, j0Var, 6);
+        Looper.getMainLooper();
+        this.f6903c = c0Var;
+        this.f6904d = o0.a.b();
+        this.f6905e = CoroutineLiveDataKt.DEFAULT_TIMEOUT;
+        this.f = PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS;
+    }
+
+    public static k0 a(Context context) {
+        synchronized (g) {
+            try {
+                if (h == null) {
+                    h = new k0(context.getApplicationContext(), context.getMainLooper());
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        return h;
+    }
+
+    public static HandlerThread b() {
+        synchronized (g) {
+            try {
+                HandlerThread handlerThread = i;
+                if (handlerThread != null) {
+                    return handlerThread;
+                }
+                HandlerThread handlerThread2 = new HandlerThread("GoogleApiHandler", 9);
+                i = handlerThread2;
+                handlerThread2.start();
+                return i;
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+
+    public final h0.b c(h0 h0Var, d0 d0Var, String str, Executor executor) {
+        h0.b bVarA;
+        HashMap map = this.f6901a;
+        synchronized (map) {
+            try {
+                i0 i0Var = (i0) map.get(h0Var);
+                if (executor == null) {
+                    executor = null;
+                }
+                if (i0Var == null) {
+                    i0Var = new i0(this, h0Var);
+                    i0Var.f6884a.put(d0Var, d0Var);
+                    bVarA = i0Var.a(str, executor);
+                    map.put(h0Var, i0Var);
+                } else {
+                    this.f6903c.removeMessages(0, h0Var);
+                    if (i0Var.f6884a.containsKey(d0Var)) {
+                        String string = h0Var.toString();
+                        StringBuilder sb = new StringBuilder(string.length() + 81);
+                        sb.append("Trying to bind a GmsServiceConnection that was already connected before.  config=");
+                        sb.append(string);
+                        throw new IllegalStateException(sb.toString());
+                    }
+                    i0Var.f6884a.put(d0Var, d0Var);
+                    int i6 = i0Var.f6885b;
+                    if (i6 == 1) {
+                        d0Var.onServiceConnected(i0Var.f6889o, i0Var.f6887m);
+                    } else if (i6 == 2) {
+                        bVarA = i0Var.a(str, executor);
+                    }
+                    bVarA = null;
+                }
+                if (i0Var.f6886l) {
+                    return h0.b.f5394o;
+                }
+                if (bVarA == null) {
+                    bVarA = new h0.b(null, null, -1);
+                }
+                return bVarA;
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+
+    public final void d(String str, ServiceConnection serviceConnection, boolean z9) {
+        h0 h0Var = new h0(str, z9);
+        y.h(serviceConnection, "ServiceConnection must not be null");
+        HashMap map = this.f6901a;
+        synchronized (map) {
+            try {
+                i0 i0Var = (i0) map.get(h0Var);
+                if (i0Var == null) {
+                    String string = h0Var.toString();
+                    StringBuilder sb = new StringBuilder(string.length() + 50);
+                    sb.append("Nonexistent connection status for service config: ");
+                    sb.append(string);
+                    throw new IllegalStateException(sb.toString());
+                }
+                if (!i0Var.f6884a.containsKey(serviceConnection)) {
+                    String string2 = h0Var.toString();
+                    StringBuilder sb2 = new StringBuilder(string2.length() + 76);
+                    sb2.append("Trying to unbind a GmsServiceConnection  that was not bound before.  config=");
+                    sb2.append(string2);
+                    throw new IllegalStateException(sb2.toString());
+                }
+                i0Var.f6884a.remove(serviceConnection);
+                if (i0Var.f6884a.isEmpty()) {
+                    this.f6903c.sendMessageDelayed(this.f6903c.obtainMessage(0, h0Var), this.f6905e);
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+    }
+}

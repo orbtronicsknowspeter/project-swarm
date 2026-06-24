@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog"
+    android:padding="@dimen/margin_l"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ScrollView
+        android:id="@+id/scroll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_l"
+        android:fillViewport="true">
+        <TextView
+            android:textSize="@dimen/text_size_m"
+            android:textColor="@color/text_primary"
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="4dp"/>
+    </ScrollView>
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/tv_ok"
+        android:text="@string/ok"
+        style="@style/DialogButtonsStyle"/>
+</LinearLayout>

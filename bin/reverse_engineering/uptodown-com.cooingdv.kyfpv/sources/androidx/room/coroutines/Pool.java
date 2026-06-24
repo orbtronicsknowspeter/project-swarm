@@ -1,0 +1,284 @@
+package androidx.room.coroutines;
+
+import androidx.collection.CircularArray;
+import androidx.sqlite.SQLiteConnection;
+import java.util.concurrent.locks.ReentrantLock;
+import v6.c;
+import v6.e;
+import x7.i;
+import x7.l;
+import x7.m;
+import x7.n;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes.dex */
+final class Pool {
+    private final CircularArray<ConnectionWithLock> availableConnections;
+    private final int capacity;
+    private final d7.a connectionFactory;
+    private final i connectionPermits;
+    private final ConnectionWithLock[] connections;
+    private boolean isClosed;
+    private final ReentrantLock lock;
+    private int size;
+
+    /* JADX INFO: renamed from: androidx.room.coroutines.Pool$acquire$1, reason: invalid class name */
+    /* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+    @e(c = "androidx.room.coroutines.Pool", f = "ConnectionPoolImpl.kt", l = {212}, m = "acquire")
+    public static final class AnonymousClass1 extends c {
+        Object L$0;
+        int label;
+        /* synthetic */ Object result;
+
+        public AnonymousClass1(t6.c cVar) {
+            super(cVar);
+        }
+
+        @Override // v6.a
+        public final Object invokeSuspend(Object obj) {
+            this.result = obj;
+            this.label |= Integer.MIN_VALUE;
+            return Pool.this.acquire(this);
+        }
+    }
+
+    public Pool(int i, d7.a aVar) {
+        aVar.getClass();
+        this.capacity = i;
+        this.connectionFactory = aVar;
+        this.lock = new ReentrantLock();
+        this.connections = new ConnectionWithLock[i];
+        int i6 = n.f11540a;
+        this.connectionPermits = new m(i, 0);
+        this.availableConnections = new CircularArray<>(i);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    private final void tryOpenNewConnectionLocked() {
+        if (this.size >= this.capacity) {
+            return;
+        }
+        ConnectionWithLock connectionWithLock = new ConnectionWithLock((SQLiteConnection) this.connectionFactory.invoke(), null, 2, 0 == true ? 1 : 0);
+        ConnectionWithLock[] connectionWithLockArr = this.connections;
+        int i = this.size;
+        this.size = i + 1;
+        connectionWithLockArr[i] = connectionWithLock;
+        this.availableConnections.addLast(connectionWithLock);
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0067, code lost:
+    
+        r0.g(r3, r6.f11539b);
+     */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0013  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final java.lang.Object acquire(t6.c r6) {
+        /*
+            r5 = this;
+            boolean r0 = r6 instanceof androidx.room.coroutines.Pool.AnonymousClass1
+            if (r0 == 0) goto L13
+            r0 = r6
+            androidx.room.coroutines.Pool$acquire$1 r0 = (androidx.room.coroutines.Pool.AnonymousClass1) r0
+            int r1 = r0.label
+            r2 = -2147483648(0xffffffff80000000, float:-0.0)
+            r3 = r1 & r2
+            if (r3 == 0) goto L13
+            int r1 = r1 - r2
+            r0.label = r1
+            goto L18
+        L13:
+            androidx.room.coroutines.Pool$acquire$1 r0 = new androidx.room.coroutines.Pool$acquire$1
+            r0.<init>(r6)
+        L18:
+            java.lang.Object r6 = r0.result
+            int r1 = r0.label
+            r2 = 1
+            if (r1 == 0) goto L30
+            if (r1 != r2) goto L29
+            java.lang.Object r0 = r0.L$0
+            androidx.room.coroutines.Pool r0 = (androidx.room.coroutines.Pool) r0
+            p6.a.e(r6)
+            goto L82
+        L29:
+            java.lang.String r6 = "call to 'resume' before 'invoke' with coroutine"
+            androidx.privacysandbox.ads.adservices.customaudience.a.i(r6)
+            r6 = 0
+            return r6
+        L30:
+            p6.a.e(r6)
+            x7.i r6 = r5.connectionPermits
+            r0.L$0 = r5
+            r0.label = r2
+            x7.l r6 = (x7.l) r6
+            r6.getClass()
+            int r1 = r6.f11538a
+        L40:
+            java.util.concurrent.atomic.AtomicIntegerFieldUpdater r2 = x7.l.f11537p
+            int r2 = r2.getAndDecrement(r6)
+            if (r2 > r1) goto L40
+            p6.x r3 = p6.x.f8464a
+            u6.a r4 = u6.a.f10763a
+            if (r2 <= 0) goto L4f
+            goto L7e
+        L4f:
+            t6.c r0 = d0.b.I(r0)
+            o7.l r0 = o7.c0.p(r0)
+            boolean r2 = r6.a(r0)     // Catch: java.lang.Throwable -> Lc0
+            if (r2 != 0) goto L73
+        L5d:
+            java.util.concurrent.atomic.AtomicIntegerFieldUpdater r2 = x7.l.f11537p     // Catch: java.lang.Throwable -> Lc0
+            int r2 = r2.getAndDecrement(r6)     // Catch: java.lang.Throwable -> Lc0
+            if (r2 > r1) goto L5d
+            if (r2 <= 0) goto L6d
+            o7.k r6 = r6.f11539b     // Catch: java.lang.Throwable -> Lc0
+            r0.g(r3, r6)     // Catch: java.lang.Throwable -> Lc0
+            goto L73
+        L6d:
+            boolean r2 = r6.a(r0)     // Catch: java.lang.Throwable -> Lc0
+            if (r2 == 0) goto L5d
+        L73:
+            java.lang.Object r6 = r0.r()
+            if (r6 != r4) goto L7a
+            goto L7b
+        L7a:
+            r6 = r3
+        L7b:
+            if (r6 != r4) goto L7e
+            r3 = r6
+        L7e:
+            if (r3 != r4) goto L81
+            return r4
+        L81:
+            r0 = r5
+        L82:
+            java.util.concurrent.locks.ReentrantLock r6 = r0.lock     // Catch: java.lang.Throwable -> La5
+            r6.lock()     // Catch: java.lang.Throwable -> La5
+            boolean r1 = r0.isClosed     // Catch: java.lang.Throwable -> L97
+            if (r1 != 0) goto La7
+            androidx.collection.CircularArray<androidx.room.coroutines.ConnectionWithLock> r1 = r0.availableConnections     // Catch: java.lang.Throwable -> L97
+            boolean r1 = r1.isEmpty()     // Catch: java.lang.Throwable -> L97
+            if (r1 == 0) goto L99
+            r0.tryOpenNewConnectionLocked()     // Catch: java.lang.Throwable -> L97
+            goto L99
+        L97:
+            r1 = move-exception
+            goto Lb4
+        L99:
+            androidx.collection.CircularArray<androidx.room.coroutines.ConnectionWithLock> r1 = r0.availableConnections     // Catch: java.lang.Throwable -> L97
+            java.lang.Object r1 = r1.popFirst()     // Catch: java.lang.Throwable -> L97
+            androidx.room.coroutines.ConnectionWithLock r1 = (androidx.room.coroutines.ConnectionWithLock) r1     // Catch: java.lang.Throwable -> L97
+            r6.unlock()     // Catch: java.lang.Throwable -> La5
+            return r1
+        La5:
+            r6 = move-exception
+            goto Lb8
+        La7:
+            java.lang.String r1 = "Connection pool is closed"
+            r2 = 21
+            androidx.sqlite.SQLite.throwSQLiteException(r2, r1)     // Catch: java.lang.Throwable -> L97
+            a1.b r1 = new a1.b     // Catch: java.lang.Throwable -> L97
+            r1.<init>()     // Catch: java.lang.Throwable -> L97
+            throw r1     // Catch: java.lang.Throwable -> L97
+        Lb4:
+            r6.unlock()     // Catch: java.lang.Throwable -> La5
+            throw r1     // Catch: java.lang.Throwable -> La5
+        Lb8:
+            x7.i r0 = r0.connectionPermits
+            x7.l r0 = (x7.l) r0
+            r0.b()
+            throw r6
+        Lc0:
+            r6 = move-exception
+            r0.z()
+            throw r6
+        */
+        throw new UnsupportedOperationException("Method not decompiled: androidx.room.coroutines.Pool.acquire(t6.c):java.lang.Object");
+    }
+
+    public final void close() {
+        ReentrantLock reentrantLock = this.lock;
+        reentrantLock.lock();
+        try {
+            this.isClosed = true;
+            for (ConnectionWithLock connectionWithLock : this.connections) {
+                if (connectionWithLock != null) {
+                    connectionWithLock.close();
+                }
+            }
+        } finally {
+            reentrantLock.unlock();
+        }
+    }
+
+    public final void dump(StringBuilder sb) {
+        sb.getClass();
+        ReentrantLock reentrantLock = this.lock;
+        reentrantLock.lock();
+        try {
+            r6.c cVarT = a.a.t();
+            int size = this.availableConnections.size();
+            for (int i = 0; i < size; i++) {
+                cVarT.add(this.availableConnections.get(i));
+            }
+            r6.c cVarM = a.a.m(cVarT);
+            sb.append('\t' + toString() + " (");
+            sb.append("capacity=" + this.capacity + ", ");
+            StringBuilder sb2 = new StringBuilder();
+            sb2.append("permits=");
+            l lVar = (l) this.connectionPermits;
+            lVar.getClass();
+            sb2.append(Math.max(l.f11537p.get(lVar), 0));
+            sb2.append(", ");
+            sb.append(sb2.toString());
+            sb.append("queue=(size=" + cVarM.c() + ")[" + q6.l.x0(cVarM, null, null, null, null, 63) + "], ");
+            sb.append(")");
+            sb.append('\n');
+            ConnectionWithLock[] connectionWithLockArr = this.connections;
+            int length = connectionWithLockArr.length;
+            int i6 = 0;
+            for (int i10 = 0; i10 < length; i10++) {
+                ConnectionWithLock connectionWithLock = connectionWithLockArr[i10];
+                i6++;
+                StringBuilder sb3 = new StringBuilder();
+                sb3.append("\t\t[");
+                sb3.append(i6);
+                sb3.append("] - ");
+                sb3.append(connectionWithLock != null ? connectionWithLock.toString() : null);
+                sb.append(sb3.toString());
+                sb.append('\n');
+                if (connectionWithLock != null) {
+                    connectionWithLock.dump(sb);
+                }
+            }
+            reentrantLock.unlock();
+        } catch (Throwable th) {
+            reentrantLock.unlock();
+            throw th;
+        }
+    }
+
+    public final int getCapacity() {
+        return this.capacity;
+    }
+
+    public final d7.a getConnectionFactory() {
+        return this.connectionFactory;
+    }
+
+    public final void recycle(ConnectionWithLock connectionWithLock) {
+        connectionWithLock.getClass();
+        ReentrantLock reentrantLock = this.lock;
+        reentrantLock.lock();
+        try {
+            this.availableConnections.addLast(connectionWithLock);
+            reentrantLock.unlock();
+            ((l) this.connectionPermits).b();
+        } catch (Throwable th) {
+            reentrantLock.unlock();
+            throw th;
+        }
+    }
+}

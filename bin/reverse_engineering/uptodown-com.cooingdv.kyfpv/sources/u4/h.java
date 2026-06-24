@@ -1,0 +1,49 @@
+package u4;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.CompoundButton;
+import androidx.lifecycle.ViewModelKt;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final /* synthetic */ class h implements CompoundButton.OnCheckedChangeListener {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ int f10498a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ f0 f10499b;
+
+    public /* synthetic */ h(f0 f0Var, int i) {
+        this.f10498a = i;
+        this.f10499b = f0Var;
+    }
+
+    @Override // android.widget.CompoundButton.OnCheckedChangeListener
+    public final void onCheckedChanged(CompoundButton compoundButton, boolean z9) {
+        int i = this.f10498a;
+        f0 f0Var = this.f10499b;
+        switch (i) {
+            case 0:
+                Context contextRequireContext = f0Var.requireContext();
+                contextRequireContext.getClass();
+                SharedPreferences sharedPreferences = contextRequireContext.getSharedPreferences("SettingsPreferences", 0);
+                sharedPreferences.getClass();
+                SharedPreferences.Editor editorEdit = sharedPreferences.edit();
+                editorEdit.putBoolean("show_warning_download_incompatible", !z9);
+                editorEdit.apply();
+                break;
+            default:
+                v0 v0VarG = f0Var.G();
+                Context contextRequireContext2 = f0Var.requireContext();
+                contextRequireContext2.getClass();
+                long j = f0Var.B().f11159a;
+                v0VarG.getClass();
+                o7.a0 viewModelScope = ViewModelKt.getViewModelScope(v0VarG);
+                v7.e eVar = o7.m0.f8289a;
+                o7.c0.s(viewModelScope, v7.d.f10885a, null, new u0(contextRequireContext2, j, z9, null), 2);
+                break;
+        }
+    }
+}

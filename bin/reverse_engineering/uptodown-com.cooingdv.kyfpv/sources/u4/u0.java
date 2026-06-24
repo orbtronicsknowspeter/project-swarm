@@ -1,0 +1,55 @@
+package u4;
+
+import android.content.Context;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class u0 extends v6.i implements d7.p {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ Context f10616a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ long f10617b;
+
+    /* JADX INFO: renamed from: l, reason: collision with root package name */
+    public final /* synthetic */ boolean f10618l;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public u0(Context context, long j, boolean z9, t6.c cVar) {
+        super(2, cVar);
+        this.f10616a = context;
+        this.f10617b = j;
+        this.f10618l = z9;
+    }
+
+    @Override // v6.a
+    public final t6.c create(Object obj, t6.c cVar) {
+        return new u0(this.f10616a, this.f10617b, this.f10618l, cVar);
+    }
+
+    @Override // d7.p
+    public final Object invoke(Object obj, Object obj2) {
+        u0 u0Var = (u0) create((o7.a0) obj, (t6.c) obj2);
+        p6.x xVar = p6.x.f8464a;
+        u0Var.invokeSuspend(xVar);
+        return xVar;
+    }
+
+    @Override // v6.a
+    public final Object invokeSuspend(Object obj) {
+        p6.a.e(obj);
+        j5.g gVarL = j5.g.D.l(this.f10616a);
+        gVarL.b();
+        long j = this.f10617b;
+        if (gVarL.U(j) != null) {
+            if (this.f10618l) {
+                gVarL.s0(1, j);
+            } else {
+                gVarL.s0(0, j);
+            }
+        }
+        gVarL.c();
+        return p6.x.f8464a;
+    }
+}

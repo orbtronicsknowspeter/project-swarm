@@ -1,0 +1,118 @@
+package m4;
+
+import android.content.Context;
+import android.net.nsd.NsdManager;
+import android.net.nsd.NsdServiceInfo;
+import android.os.Build;
+import com.uptodown.UptodownApp;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import kotlin.jvm.internal.l;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class g {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final b4.g f7291a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final NsdManager f7292b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public f f7293c;
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    public e f7294d;
+
+    /* JADX INFO: renamed from: e, reason: collision with root package name */
+    public d f7295e;
+    public NsdServiceInfo f;
+    public final ArrayList g;
+
+    public g(Context context, b4.g gVar) {
+        context.getClass();
+        gVar.getClass();
+        this.f7291a = gVar;
+        Object systemService = context.getSystemService("servicediscovery");
+        systemService.getClass();
+        this.f7292b = (NsdManager) systemService;
+        this.g = new ArrayList();
+    }
+
+    public static final void a(g gVar, NsdServiceInfo nsdServiceInfo) {
+        String serviceName = nsdServiceInfo.getServiceName();
+        String str = f4.c.f4881t;
+        if (str == null) {
+            l.i("myNsdServiceName");
+            throw null;
+        }
+        if (l.a(serviceName, str)) {
+            return;
+        }
+        gVar.f = nsdServiceInfo;
+        gVar.f7291a.getClass();
+        b bVar = f4.c.f4886z;
+        if (bVar != null) {
+            bVar.a();
+        }
+    }
+
+    public final void b() {
+        if (this.f7295e == null) {
+            d dVar = new d(this);
+            this.f7295e = dVar;
+            try {
+                this.f7292b.discoverServices("_nsduptodown._tcp.", 1, dVar);
+            } catch (IllegalArgumentException e10) {
+                e10.printStackTrace();
+                UptodownApp uptodownApp = this.f7291a.f1004a;
+            }
+        }
+    }
+
+    public final void c() {
+        e eVar;
+        d dVar = this.f7295e;
+        NsdManager nsdManager = this.f7292b;
+        if (dVar != null) {
+            try {
+                nsdManager.stopServiceDiscovery(dVar);
+            } catch (Exception e10) {
+                e10.printStackTrace();
+            }
+            this.f7295e = null;
+        }
+        if (Build.VERSION.SDK_INT >= 34 && (eVar = this.f7294d) != null) {
+            try {
+                nsdManager.unregisterServiceInfoCallback(eVar);
+            } catch (IllegalArgumentException unused) {
+            }
+        }
+        this.g.clear();
+        this.f = null;
+    }
+
+    public final void d(NsdServiceInfo nsdServiceInfo) {
+        e eVar;
+        int i = Build.VERSION.SDK_INT;
+        if (i >= 34) {
+            if (this.f7294d == null) {
+                this.f7294d = new e(this);
+            }
+        } else if (this.f7293c == null) {
+            this.f7293c = new f(this);
+        }
+        NsdManager nsdManager = this.f7292b;
+        if (i < 34) {
+            nsdManager.resolveService(nsdServiceInfo, this.f7293c);
+            return;
+        }
+        ScheduledExecutorService scheduledExecutorServiceNewSingleThreadScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+        if (scheduledExecutorServiceNewSingleThreadScheduledExecutor == null || (eVar = this.f7294d) == null) {
+            return;
+        }
+        nsdManager.registerServiceInfoCallback(nsdServiceInfo, scheduledExecutorServiceNewSingleThreadScheduledExecutor, eVar);
+    }
+}

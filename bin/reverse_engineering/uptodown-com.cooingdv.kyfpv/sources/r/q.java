@@ -1,0 +1,33 @@
+package r;
+
+import a4.d0;
+import java.util.Set;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes.dex */
+public final class q implements o.f {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final Set f8846a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final j f8847b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public final r f8848c;
+
+    public q(Set set, j jVar, r rVar) {
+        this.f8846a = set;
+        this.f8847b = jVar;
+        this.f8848c = rVar;
+    }
+
+    public final d0 a(String str, o.c cVar, o.e eVar) {
+        Set set = this.f8846a;
+        if (set.contains(cVar)) {
+            return new d0(this.f8847b, str, cVar, eVar, this.f8848c, 5);
+        }
+        androidx.core.view.contentcapture.a.o("%s is not supported byt this factory. Supported encodings are: %s.", new Object[]{cVar, set});
+        return null;
+    }
+}

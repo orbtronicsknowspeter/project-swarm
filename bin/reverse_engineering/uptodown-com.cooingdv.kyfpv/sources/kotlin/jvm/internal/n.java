@@ -1,0 +1,44 @@
+package kotlin.jvm.internal;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public abstract class n extends t implements j7.j {
+    @Override // kotlin.jvm.internal.d
+    public j7.b computeReflected() {
+        y.f7026a.getClass();
+        return this;
+    }
+
+    @Override // j7.j
+    public Object getDelegate(Object obj) {
+        return ((n) getReflected()).getDelegate(obj);
+    }
+
+    @Override // j7.j
+    /* JADX INFO: renamed from: getGetter, reason: collision with other method in class */
+    public j7.i mo244getGetter() {
+        ((n) getReflected()).mo244getGetter();
+        return null;
+    }
+
+    /* JADX INFO: renamed from: getSetter, reason: collision with other method in class */
+    public j7.g m245getSetter() {
+        ((n) getReflected()).m245getSetter();
+        return null;
+    }
+
+    @Override // d7.l
+    public Object invoke(Object obj) {
+        return get(obj);
+    }
+
+    public /* bridge */ /* synthetic */ j7.h getGetter() {
+        mo244getGetter();
+        return null;
+    }
+
+    public /* bridge */ /* synthetic */ j7.f getSetter() {
+        m245getSetter();
+        return null;
+    }
+}

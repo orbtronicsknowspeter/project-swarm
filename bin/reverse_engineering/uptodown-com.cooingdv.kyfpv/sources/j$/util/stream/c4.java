@@ -1,0 +1,93 @@
+package j$.util.stream;
+
+import j$.util.function.Consumer$CC;
+import java.util.function.Consumer;
+import java.util.function.DoubleBinaryOperator;
+import java.util.function.DoubleConsumer;
+
+/* JADX INFO: loaded from: classes2.dex */
+public final class c4 implements r4, j5 {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public boolean f6162a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public double f6163b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public final /* synthetic */ DoubleBinaryOperator f6164c;
+
+    @Override // j$.util.stream.m5
+    public final /* synthetic */ void accept(int i) {
+        w3.k();
+        throw null;
+    }
+
+    @Override // j$.util.stream.m5
+    public final /* synthetic */ void accept(long j) {
+        w3.l();
+        throw null;
+    }
+
+    @Override // java.util.function.Consumer
+    /* JADX INFO: renamed from: accept */
+    public final /* bridge */ /* synthetic */ void n(Object obj) {
+        n((Double) obj);
+    }
+
+    public final /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer$CC.$default$andThen(this, consumer);
+    }
+
+    public final /* synthetic */ DoubleConsumer andThen(DoubleConsumer doubleConsumer) {
+        return j$.com.android.tools.r8.a.d(this, doubleConsumer);
+    }
+
+    @Override // j$.util.stream.m5
+    public final /* synthetic */ boolean e() {
+        return false;
+    }
+
+    @Override // j$.util.stream.m5
+    public final /* synthetic */ void end() {
+    }
+
+    @Override // j$.util.stream.j5
+    public final /* synthetic */ void n(Double d10) {
+        w3.d(this, d10);
+    }
+
+    public c4(DoubleBinaryOperator doubleBinaryOperator) {
+        this.f6164c = doubleBinaryOperator;
+    }
+
+    @Override // j$.util.stream.r4
+    public final void i(r4 r4Var) {
+        c4 c4Var = (c4) r4Var;
+        if (c4Var.f6162a) {
+            return;
+        }
+        accept(c4Var.f6163b);
+    }
+
+    @Override // j$.util.stream.m5
+    public final void c(long j) {
+        this.f6162a = true;
+        this.f6163b = 0.0d;
+    }
+
+    @Override // j$.util.stream.m5, j$.util.stream.j5, java.util.function.DoubleConsumer
+    public final void accept(double d10) {
+        if (this.f6162a) {
+            this.f6162a = false;
+            this.f6163b = d10;
+        } else {
+            this.f6163b = this.f6164c.applyAsDouble(this.f6163b, d10);
+        }
+    }
+
+    @Override // java.util.function.Supplier
+    public final Object get() {
+        return this.f6162a ? j$.util.c0.f5976c : new j$.util.c0(this.f6163b);
+    }
+}

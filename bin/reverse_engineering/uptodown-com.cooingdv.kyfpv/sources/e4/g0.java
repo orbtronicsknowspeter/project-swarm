@@ -1,0 +1,83 @@
+package e4;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
+import com.uptodown.UptodownApp;
+import java.util.ArrayList;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class g0 extends RecyclerView.Adapter {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final ArrayList f4535a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final w4.b f4536b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public final int f4537c;
+
+    public g0(ArrayList arrayList, w4.b bVar) {
+        arrayList.getClass();
+        this.f4535a = arrayList;
+        this.f4536b = bVar;
+        this.f4537c = arrayList.size() - 1;
+    }
+
+    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    public final int getItemCount() {
+        return this.f4535a.size();
+    }
+
+    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    public final void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+        f0 f0Var = (f0) viewHolder;
+        f0Var.getClass();
+        Object obj = this.f4535a.get(i);
+        obj.getClass();
+        x4.g gVar = (x4.g) obj;
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(-2, -2);
+        g4.v vVar = f0Var.f4528b;
+        RelativeLayout relativeLayout = (RelativeLayout) vVar.f5279n;
+        Context context = f0Var.itemView.getContext();
+        context.getClass();
+        m5.e.a(layoutParams, context, i, f0Var.f4530m.f4537c);
+        relativeLayout.setLayoutParams(layoutParams);
+        a4.l0 l0VarE = a4.g0.d().e(gVar.f11188u);
+        float f = UptodownApp.I;
+        Context context2 = f0Var.itemView.getContext();
+        context2.getClass();
+        l0VarE.g(b4.d.f(context2));
+        Context context3 = f0Var.itemView.getContext();
+        context3.getClass();
+        l0VarE.h(b4.d.x(context3));
+        l0VarE.e((ImageView) vVar.f5281p, null);
+        a4.l0 l0VarE2 = a4.g0.d().e(gVar.f());
+        Context context4 = f0Var.itemView.getContext();
+        context4.getClass();
+        l0VarE2.g(b4.d.f(context4));
+        a4.k0 k0Var = l0VarE2.f135b;
+        k0Var.f = true;
+        k0Var.g = 17;
+        l0VarE2.f136c = true;
+        Context context5 = f0Var.itemView.getContext();
+        context5.getClass();
+        l0VarE2.h(b4.d.w(context5));
+        l0VarE2.e((ImageView) vVar.f5280o, null);
+        ((TextView) vVar.f5277l).setText(gVar.f11160b);
+        ((TextView) vVar.f5276b).setText(gVar.f11176o);
+        ((RelativeLayout) vVar.f5279n).setOnClickListener(new e0(f0Var, i, 0));
+    }
+
+    @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        viewGroup.getClass();
+        return new f0(this, g4.v.f(LayoutInflater.from(viewGroup.getContext()), null), this.f4536b);
+    }
+}

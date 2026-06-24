@@ -1,0 +1,108 @@
+package j4;
+
+import java.io.File;
+import o7.a0;
+import p6.x;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class h extends v6.i implements d7.p {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ int f6612a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ o f6613b;
+
+    /* JADX INFO: renamed from: l, reason: collision with root package name */
+    public final /* synthetic */ File f6614l;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public h(File file, o oVar, t6.c cVar) {
+        super(2, cVar);
+        this.f6612a = 0;
+        this.f6614l = file;
+        this.f6613b = oVar;
+    }
+
+    @Override // v6.a
+    public final t6.c create(Object obj, t6.c cVar) {
+        switch (this.f6612a) {
+            case 0:
+                return new h(this.f6614l, this.f6613b, cVar);
+            case 1:
+                return new h(this.f6613b, this.f6614l, cVar, 1);
+            case 2:
+                return new h(this.f6613b, this.f6614l, cVar, 2);
+            case 3:
+                return new h(this.f6613b, this.f6614l, cVar, 3);
+            default:
+                return new h(this.f6613b, this.f6614l, cVar, 4);
+        }
+    }
+
+    @Override // d7.p
+    public final Object invoke(Object obj, Object obj2) {
+        a0 a0Var = (a0) obj;
+        t6.c cVar = (t6.c) obj2;
+        switch (this.f6612a) {
+            case 0:
+                h hVar = (h) create(a0Var, cVar);
+                x xVar = x.f8464a;
+                hVar.invokeSuspend(xVar);
+                break;
+        }
+        return ((h) create(a0Var, cVar)).invokeSuspend(x.f8464a);
+    }
+
+    @Override // v6.a
+    public final Object invokeSuspend(Object obj) {
+        k4.a aVar;
+        switch (this.f6612a) {
+            case 0:
+                p6.a.e(obj);
+                File file = this.f6614l;
+                if (file != null && (aVar = this.f6613b.f6653c) != null) {
+                    aVar.x(file);
+                }
+                break;
+            case 1:
+                p6.a.e(obj);
+                k4.a aVar2 = this.f6613b.f6653c;
+                if (aVar2 != null) {
+                    aVar2.r(this.f6614l);
+                }
+                break;
+            case 2:
+                p6.a.e(obj);
+                k4.a aVar3 = this.f6613b.f6653c;
+                if (aVar3 != null) {
+                    aVar3.m(this.f6614l);
+                }
+                break;
+            case 3:
+                p6.a.e(obj);
+                k4.a aVar4 = this.f6613b.f6653c;
+                if (aVar4 != null) {
+                    aVar4.r(this.f6614l);
+                }
+                break;
+            default:
+                p6.a.e(obj);
+                k4.a aVar5 = this.f6613b.f6653c;
+                if (aVar5 != null) {
+                    aVar5.m(this.f6614l);
+                }
+                break;
+        }
+        return x.f8464a;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public /* synthetic */ h(o oVar, File file, t6.c cVar, int i) {
+        super(2, cVar);
+        this.f6612a = i;
+        this.f6613b = oVar;
+        this.f6614l = file;
+    }
+}

@@ -1,0 +1,52 @@
+package y1;
+
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.os.Build;
+import java.util.ArrayList;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class a {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final String f11600a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final String f11601b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public final ArrayList f11602c;
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    public final String f11603d;
+
+    /* JADX INFO: renamed from: e, reason: collision with root package name */
+    public final String f11604e;
+    public final String f;
+    public final String g;
+    public final m8.q h;
+
+    public a(String str, String str2, ArrayList arrayList, String str3, String str4, String str5, String str6, m8.q qVar) {
+        this.f11600a = str;
+        this.f11601b = str2;
+        this.f11602c = arrayList;
+        this.f11603d = str3;
+        this.f11604e = str4;
+        this.f = str5;
+        this.g = str6;
+        this.h = qVar;
+    }
+
+    public static a a(Context context, x xVar, String str, String str2, ArrayList arrayList, m8.q qVar) {
+        String packageName = context.getPackageName();
+        String strD = xVar.d();
+        PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+        String string = Build.VERSION.SDK_INT >= 28 ? Long.toString(packageInfo.getLongVersionCode()) : Integer.toString(packageInfo.versionCode);
+        String str3 = packageInfo.versionName;
+        if (str3 == null) {
+            str3 = "0.0";
+        }
+        return new a(str, str2, arrayList, strD, packageName, string, str3, qVar);
+    }
+}

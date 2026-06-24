@@ -1,0 +1,28 @@
+package d8;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class k1 implements z7.b {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public static final k1 f3666a = new k1();
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public static final y f3667b = o0.a("kotlin.ULong", i0.f3656a);
+
+    @Override // z7.a
+    public final Object deserialize(c8.e eVar) {
+        eVar.getClass();
+        return new p6.s(eVar.decodeInline(f3667b).decodeLong());
+    }
+
+    @Override // z7.h, z7.a
+    public final b8.e getDescriptor() {
+        return f3667b;
+    }
+
+    @Override // z7.h
+    public final void serialize(c8.f fVar, Object obj) {
+        fVar.encodeInline(f3667b).encodeLong(((p6.s) obj).f8459a);
+    }
+}

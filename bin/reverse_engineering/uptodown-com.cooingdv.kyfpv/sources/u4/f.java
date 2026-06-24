@@ -1,0 +1,262 @@
+package u4;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.text.Editable;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+import com.uptodown.R;
+import com.uptodown.UptodownApp;
+import com.uptodown.activities.AppDetailActivity;
+import com.uptodown.activities.MainActivity;
+import java.util.Map;
+import x4.o2;
+import x4.p2;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final /* synthetic */ class f implements View.OnClickListener {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ int f10470a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ Object f10471b;
+
+    /* JADX INFO: renamed from: l, reason: collision with root package name */
+    public final /* synthetic */ Object f10472l;
+
+    public /* synthetic */ f(int i, Object obj, Object obj2) {
+        this.f10470a = i;
+        this.f10471b = obj;
+        this.f10472l = obj2;
+    }
+
+    @Override // android.view.View.OnClickListener
+    public final void onClick(View view) {
+        int i = this.f10470a;
+        Object obj = this.f10472l;
+        Object obj2 = this.f10471b;
+        switch (i) {
+            case 0:
+                ((f0) obj2).G().R.f(((Map.Entry) obj).getKey());
+                break;
+            case 1:
+                f0 f0Var = (f0) obj2;
+                if (((CheckBox) ((a4.d0) obj).f82l).isChecked()) {
+                    Context contextRequireContext = f0Var.requireContext();
+                    contextRequireContext.getClass();
+                    SharedPreferences sharedPreferences = contextRequireContext.getSharedPreferences("SettingsPreferences", 0);
+                    sharedPreferences.getClass();
+                    SharedPreferences.Editor editorEdit = sharedPreferences.edit();
+                    editorEdit.putBoolean("show_warning_download_incompatible", true);
+                    editorEdit.apply();
+                }
+                Context contextRequireContext2 = f0Var.requireContext();
+                contextRequireContext2.getClass();
+                f0Var.c0(contextRequireContext2);
+                if (f0Var.getActivity() != null) {
+                    FragmentActivity activity = f0Var.getActivity();
+                    activity.getClass();
+                    AlertDialog alertDialog = ((c4.k0) activity).F;
+                    if (alertDialog != null) {
+                        alertDialog.dismiss();
+                    }
+                }
+                break;
+            case 2:
+                ((d7.a) obj).invoke();
+                FragmentActivity activity2 = ((f0) obj2).getActivity();
+                activity2.getClass();
+                AlertDialog alertDialog2 = ((c4.k0) activity2).F;
+                if (alertDialog2 != null) {
+                    alertDialog2.dismiss();
+                }
+                break;
+            case 3:
+                f0 f0Var2 = (f0) obj2;
+                x4.j jVar = (x4.j) obj;
+                float f = UptodownApp.I;
+                if (b4.d.t()) {
+                    f0Var2.Q(jVar);
+                }
+                break;
+            case 4:
+                t4.q0 q0Var = (t4.q0) obj;
+                f0 f0Var3 = (f0) obj2;
+                TextView textView = q0Var.f10075w;
+                TextView textView2 = q0Var.B;
+                if (textView.getMaxLines() != Integer.MAX_VALUE) {
+                    textView.setMaxLines(Integer.MAX_VALUE);
+                    textView2.setText(f0Var3.getString(R.string.read_less_desc_app_detail));
+                } else {
+                    textView.setMaxLines(4);
+                    textView2.setText(f0Var3.getString(R.string.read_more_desc_app_detail));
+                }
+                break;
+            case 5:
+                f0 f0Var4 = (f0) obj2;
+                p2 p2Var = (p2) obj;
+                float f10 = UptodownApp.I;
+                if (b4.d.t()) {
+                    f0Var4.Q(p2Var.f11330a);
+                }
+                break;
+            case 6:
+                t4.p0 p0Var = (t4.p0) obj;
+                f0 f0Var5 = (f0) obj2;
+                TextView textView3 = p0Var.v;
+                TextView textView4 = p0Var.A;
+                if (textView3.getMaxLines() != Integer.MAX_VALUE) {
+                    textView3.setMaxLines(Integer.MAX_VALUE);
+                    textView4.setText(f0Var5.getString(R.string.read_less_desc_app_detail));
+                } else {
+                    textView3.setMaxLines(4);
+                    textView4.setText(f0Var5.getString(R.string.read_more_desc_app_detail));
+                }
+                break;
+            case 7:
+                f0 f0Var6 = (f0) obj2;
+                if (((t4.i) obj).f9863b.getVisibility() == 0) {
+                    f0Var6.t();
+                }
+                break;
+            case 8:
+                f0 f0Var7 = (f0) obj2;
+                EditText editText = (EditText) ((e2.d) obj).f4468l;
+                float f11 = UptodownApp.I;
+                if (b4.d.t()) {
+                    r7.o0 o0Var = f0Var7.G().H;
+                    Editable text = editText.getText();
+                    text.getClass();
+                    o0Var.f(l7.m.K0(text).toString());
+                    editText.setText((CharSequence) f0Var7.G().H.getValue());
+                    FragmentActivity activity3 = f0Var7.getActivity();
+                    activity3.getClass();
+                    AlertDialog alertDialog3 = ((c4.k0) activity3).F;
+                    if (alertDialog3 != null) {
+                        alertDialog3.dismiss();
+                    }
+                }
+                break;
+            case 9:
+                f0 f0Var8 = (f0) obj2;
+                if (!((kotlin.jvm.internal.u) obj).f7022a) {
+                    a5.b.h();
+                }
+                FragmentActivity activity4 = f0Var8.getActivity();
+                activity4.getClass();
+                AlertDialog alertDialog4 = ((c4.k0) activity4).F;
+                if (alertDialog4 != null) {
+                    alertDialog4.dismiss();
+                }
+                break;
+            case 10:
+                f0 f0Var9 = (f0) obj2;
+                x4.c cVar = (x4.c) obj;
+                if (f0Var9.getActivity() != null) {
+                    FragmentActivity activity5 = f0Var9.getActivity();
+                    activity5.getClass();
+                    if (((c4.k0) activity5).T()) {
+                        if (!(f0Var9.getActivity() instanceof MainActivity)) {
+                            if (f0Var9.getActivity() instanceof AppDetailActivity) {
+                                FragmentActivity activity6 = f0Var9.getActivity();
+                                activity6.getClass();
+                                AppDetailActivity appDetailActivity = (AppDetailActivity) activity6;
+                                cVar.getClass();
+                                d dVar = new d();
+                                dVar.f10448b = cVar;
+                                FragmentTransaction fragmentTransactionBeginTransaction = appDetailActivity.getSupportFragmentManager().beginTransaction();
+                                fragmentTransactionBeginTransaction.getClass();
+                                float f12 = UptodownApp.I;
+                                b4.d.C(fragmentTransactionBeginTransaction, appDetailActivity);
+                                fragmentTransactionBeginTransaction.add(R.id.fl_main_app_detail_activity, dVar, (String) null).addToBackStack(cVar.f11072a).commit();
+                                appDetailActivity.U.add(dVar);
+                            }
+                            break;
+                        } else {
+                            FragmentActivity activity7 = f0Var9.getActivity();
+                            activity7.getClass();
+                            MainActivity mainActivity = (MainActivity) activity7;
+                            cVar.getClass();
+                            mainActivity.Y0();
+                            d dVar2 = new d();
+                            dVar2.f10448b = cVar;
+                            FragmentTransaction fragmentTransactionBeginTransaction2 = mainActivity.getSupportFragmentManager().beginTransaction();
+                            fragmentTransactionBeginTransaction2.getClass();
+                            if (((CoordinatorLayout) mainActivity.findViewById(R.id.rl_main_scrollable)) == null) {
+                                String string = mainActivity.getString(R.string.error_generico);
+                                string.getClass();
+                                mainActivity.A(string);
+                                break;
+                            } else {
+                                try {
+                                    float f13 = UptodownApp.I;
+                                    b4.d.C(fragmentTransactionBeginTransaction2, mainActivity);
+                                    fragmentTransactionBeginTransaction2.add(R.id.rl_main_scrollable, dVar2);
+                                    fragmentTransactionBeginTransaction2.addToBackStack(cVar.f11072a);
+                                    if (mainActivity.W0() instanceof z1) {
+                                        fragmentTransactionBeginTransaction2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                                    }
+                                    if (!mainActivity.isFinishing() && !mainActivity.getSupportFragmentManager().isDestroyed()) {
+                                        try {
+                                            fragmentTransactionBeginTransaction2.commitAllowingStateLoss();
+                                        } catch (Exception e10) {
+                                            e10.printStackTrace();
+                                            String string2 = mainActivity.getString(R.string.error_generico);
+                                            string2.getClass();
+                                            mainActivity.A(string2);
+                                            return;
+                                        }
+                                        break;
+                                    }
+                                } catch (Exception e11) {
+                                    e11.printStackTrace();
+                                    String string3 = mainActivity.getString(R.string.error_generico);
+                                    string3.getClass();
+                                    mainActivity.A(string3);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+            case 11:
+                z1 z1Var = (z1) obj;
+                Intent intent = new Intent("android.intent.action.SEND");
+                intent.addFlags(524288);
+                intent.setType("text/plain");
+                o2 o2Var = ((p2) obj2).f11333d;
+                o2Var.getClass();
+                intent.putExtra("android.intent.extra.TEXT", o2Var.g);
+                z1Var.startActivity(Intent.createChooser(intent, z1Var.getString(R.string.option_button_share)));
+                break;
+            default:
+                String str = (String) obj;
+                str.getClass();
+                Context context = ((x5.d) obj2).getContext();
+                if (context != null) {
+                    Intent intent2 = new Intent("android.intent.action.VIEW");
+                    intent2.setData(Uri.parse(str));
+                    context.startActivity(intent2);
+                    break;
+                }
+                break;
+        }
+    }
+
+    public /* synthetic */ f(Object obj, f0 f0Var, int i) {
+        this.f10470a = i;
+        this.f10472l = obj;
+        this.f10471b = f0Var;
+    }
+}

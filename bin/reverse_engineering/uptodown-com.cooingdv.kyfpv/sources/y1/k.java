@@ -1,0 +1,29 @@
+package y1;
+
+import android.os.Bundle;
+import java.util.concurrent.Callable;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class k implements Callable {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ long f11633a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ l f11634b;
+
+    public k(l lVar, long j) {
+        this.f11634b = lVar;
+        this.f11633a = j;
+    }
+
+    @Override // java.util.concurrent.Callable
+    public final Object call() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("fatal", 1);
+        bundle.putLong("timestamp", this.f11633a);
+        this.f11634b.f11642k.i(bundle);
+        return null;
+    }
+}

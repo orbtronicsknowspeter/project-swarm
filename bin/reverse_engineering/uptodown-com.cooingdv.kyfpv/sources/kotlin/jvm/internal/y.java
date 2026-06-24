@@ -1,0 +1,26 @@
+package kotlin.jvm.internal;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public abstract class y {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public static final z f7026a;
+
+    static {
+        z zVar = null;
+        try {
+            zVar = (z) Class.forName("kotlin.reflect.jvm.internal.ReflectionFactoryImpl").newInstance();
+        } catch (ClassCastException | ClassNotFoundException | IllegalAccessException | InstantiationException unused) {
+        }
+        if (zVar == null) {
+            zVar = new z();
+        }
+        f7026a = zVar;
+    }
+
+    public static f a(Class cls) {
+        f7026a.getClass();
+        return new f(cls);
+    }
+}

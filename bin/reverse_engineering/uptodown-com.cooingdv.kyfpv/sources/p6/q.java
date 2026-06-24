@@ -1,0 +1,33 @@
+package p6;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class q implements Comparable {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final int f8457a;
+
+    public /* synthetic */ q(int i) {
+        this.f8457a = i;
+    }
+
+    @Override // java.lang.Comparable
+    public final int compareTo(Object obj) {
+        return kotlin.jvm.internal.l.c(this.f8457a ^ Integer.MIN_VALUE, ((q) obj).f8457a ^ Integer.MIN_VALUE);
+    }
+
+    public final boolean equals(Object obj) {
+        if (obj instanceof q) {
+            return this.f8457a == ((q) obj).f8457a;
+        }
+        return false;
+    }
+
+    public final int hashCode() {
+        return this.f8457a;
+    }
+
+    public final String toString() {
+        return String.valueOf(((long) this.f8457a) & 4294967295L);
+    }
+}

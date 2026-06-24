@@ -1,0 +1,71 @@
+{
+  "projectVersion": 2,
+  "files": [
+    "uptodown-com.cooingdv.kyfpv.apk"
+  ],
+  "treeExpansionsV2": [
+    "p:eightbitlab.com.blurview",
+    "p:android",
+    "p:okhttp3.internal.publicsuffix",
+    "p:a6",
+    "p:j5",
+    "t:JInputs//JInputFiles"
+  ],
+  "codeData": {
+    "comments": [],
+    "renames": []
+  },
+  "openTabs": [
+    {
+      "type": "resource",
+      "tabPath": "classes3.dex",
+      "subPath": "",
+      "caret": 0,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false,
+      "pinned": false,
+      "bookmarked": false,
+      "hidden": false,
+      "previewTab": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.uptodown.UptodownApp",
+      "subPath": "java",
+      "caret": 5595,
+      "view": {
+        "x": 0,
+        "y": 2501
+      },
+      "active": false,
+      "pinned": false,
+      "bookmarked": false,
+      "hidden": false,
+      "previewTab": false
+    },
+    {
+      "type": "class",
+      "tabPath": "j5.a",
+      "subPath": "java",
+      "caret": 899,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": true,
+      "pinned": false,
+      "bookmarked": false,
+      "hidden": false,
+      "previewTab": true
+    }
+  ],
+  "cacheDir": "/home/nooneknows/.cache/jadx/projects/uptodown-com.cooingdv.kyfpv-9710714a925837e97eed77727be4baf6",
+  "enableLiveReload": true,
+  "searchHistory": [],
+  "searchResourcesFilter": "$TEXT",
+  "searchResourcesSizeLimit": 0,
+  "pluginOptions": {}
+}

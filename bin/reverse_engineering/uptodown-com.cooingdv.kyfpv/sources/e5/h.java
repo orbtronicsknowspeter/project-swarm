@@ -1,0 +1,31 @@
+package e5;
+
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.leanback.widget.Presenter;
+import com.uptodown.R;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class h extends Presenter {
+    @Override // androidx.leanback.widget.Presenter
+    public final void onBindViewHolder(Presenter.ViewHolder viewHolder, Object obj) {
+        viewHolder.getClass();
+        if (obj == null) {
+            return;
+        }
+        TextView textView = (TextView) viewHolder.view.findViewById(R.id.tv_name);
+        textView.setTypeface(f4.c.f4883w);
+        textView.setText(((x4.j) obj).f11226b);
+    }
+
+    @Override // androidx.leanback.widget.Presenter
+    public final Presenter.ViewHolder onCreateViewHolder(ViewGroup viewGroup) {
+        return new Presenter.ViewHolder(androidx.lifecycle.l.s(viewGroup, R.layout.tv_category_tag, viewGroup, false));
+    }
+
+    @Override // androidx.leanback.widget.Presenter
+    public final void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
+        viewHolder.getClass();
+    }
+}

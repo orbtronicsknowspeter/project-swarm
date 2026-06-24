@@ -1,0 +1,168 @@
+package c4;
+
+import com.uptodown.UptodownApp;
+import com.uptodown.activities.MyApps;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class e4 implements w4.b, w4.n {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ int f1551a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ MyApps f1552b;
+
+    public /* synthetic */ e4(MyApps myApps, int i) {
+        this.f1551a = i;
+        this.f1552b = myApps;
+    }
+
+    @Override // w4.n
+    public void a(int i) {
+        MyApps myApps = this.f1552b;
+        if (MyApps.N0(myApps, i)) {
+            e4.p pVar = myApps.f3331c0;
+            pVar.getClass();
+            Object obj = pVar.f4655d.get(i);
+            obj.getClass();
+            ((x4.e) obj).E = true;
+            e4.p pVar2 = myApps.f3331c0;
+            pVar2.getClass();
+            pVar2.notifyItemChanged(i);
+            return;
+        }
+        if (MyApps.O0(myApps, i)) {
+            e4.p pVar3 = myApps.f3331c0;
+            pVar3.getClass();
+            Object obj2 = pVar3.f4655d.get(i);
+            obj2.getClass();
+            ((e4.v0) obj2).f4709a.E = true;
+            e4.p pVar4 = myApps.f3331c0;
+            pVar4.getClass();
+            pVar4.notifyItemChanged(i);
+        }
+    }
+
+    @Override // w4.b
+    public final void b(int i) {
+        int i6 = this.f1551a;
+        MyApps myApps = this.f1552b;
+        switch (i6) {
+            case 0:
+                float f = UptodownApp.I;
+                if (b4.d.t()) {
+                    if (MyApps.N0(myApps, i)) {
+                        e4.p pVar = myApps.f3331c0;
+                        pVar.getClass();
+                        Object obj = pVar.f4655d.get(i);
+                        obj.getClass();
+                        myApps.B0((x4.e) obj, i);
+                    } else if (MyApps.O0(myApps, i)) {
+                        e4.p pVar2 = myApps.f3331c0;
+                        pVar2.getClass();
+                        Object obj2 = pVar2.f4655d.get(i);
+                        obj2.getClass();
+                        myApps.B0(((e4.v0) obj2).f4709a, i);
+                    }
+                }
+                break;
+            default:
+                float f10 = UptodownApp.I;
+                if (b4.d.t()) {
+                    if (MyApps.N0(myApps, i)) {
+                        e4.p pVar3 = myApps.f3331c0;
+                        pVar3.getClass();
+                        Object obj3 = pVar3.f4655d.get(i);
+                        obj3.getClass();
+                        myApps.B0((x4.e) obj3, i);
+                    } else if (MyApps.O0(myApps, i)) {
+                        e4.p pVar4 = myApps.f3331c0;
+                        pVar4.getClass();
+                        Object obj4 = pVar4.f4655d.get(i);
+                        obj4.getClass();
+                        myApps.B0(((e4.v0) obj4).f4709a, i);
+                    }
+                }
+                break;
+        }
+    }
+
+    @Override // w4.n
+    public void c(int i) {
+        float f = UptodownApp.I;
+        if (b4.d.t()) {
+            MyApps myApps = this.f1552b;
+            if (!MyApps.N0(myApps, i)) {
+                if (MyApps.O0(myApps, i)) {
+                    e4.p pVar = myApps.f3331c0;
+                    pVar.getClass();
+                    Object obj = pVar.f4655d.get(i);
+                    obj.getClass();
+                    myApps.I0(((e4.v0) obj).f4709a);
+                    return;
+                }
+                return;
+            }
+            e4.p pVar2 = myApps.f3331c0;
+            pVar2.getClass();
+            Object obj2 = pVar2.f4655d.get(i);
+            obj2.getClass();
+            x4.e eVar = (x4.e) obj2;
+            if (eVar.f11128p == x4.d.f11088a) {
+                myApps.I0(eVar);
+            }
+        }
+    }
+
+    @Override // w4.n
+    public void d(int i) {
+        float f = UptodownApp.I;
+        if (b4.d.t()) {
+            MyApps myApps = this.f1552b;
+            if (MyApps.N0(myApps, i)) {
+                e4.p pVar = myApps.f3331c0;
+                pVar.getClass();
+                Object obj = pVar.f4655d.get(i);
+                obj.getClass();
+                myApps.G0((x4.e) obj);
+            } else if (MyApps.O0(myApps, i)) {
+                e4.p pVar2 = myApps.f3331c0;
+                pVar2.getClass();
+                Object obj2 = pVar2.f4655d.get(i);
+                obj2.getClass();
+                myApps.G0(((e4.v0) obj2).f4709a);
+            }
+            e4.p pVar3 = myApps.f3331c0;
+            if (pVar3 != null) {
+                pVar3.notifyItemChanged(i);
+            }
+        }
+    }
+
+    @Override // w4.n
+    public void e(int i) {
+        MyApps myApps = this.f1552b;
+        if (MyApps.N0(myApps, i)) {
+            e4.p pVar = myApps.f3331c0;
+            pVar.getClass();
+            Object obj = pVar.f4655d.get(i);
+            obj.getClass();
+            ((x4.e) obj).E = false;
+            e4.p pVar2 = myApps.f3331c0;
+            pVar2.getClass();
+            pVar2.notifyItemChanged(i);
+            return;
+        }
+        if (MyApps.O0(myApps, i)) {
+            e4.p pVar3 = myApps.f3331c0;
+            pVar3.getClass();
+            Object obj2 = pVar3.f4655d.get(i);
+            obj2.getClass();
+            ((e4.v0) obj2).f4709a.E = false;
+            e4.p pVar4 = myApps.f3331c0;
+            pVar4.getClass();
+            pVar4.notifyItemChanged(i);
+        }
+    }
+}

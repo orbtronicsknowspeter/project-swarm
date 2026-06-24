@@ -1,0 +1,75 @@
+package c4;
+
+import androidx.lifecycle.LifecycleOwnerKt;
+import com.uptodown.R;
+import java.io.File;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class e0 implements r7.i {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ int f1540a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ k0 f1541b;
+
+    public /* synthetic */ e0(k0 k0Var, int i) {
+        this.f1540a = i;
+        this.f1541b = k0Var;
+    }
+
+    @Override // r7.i
+    public final Object emit(Object obj, t6.c cVar) {
+        x4.r rVarA;
+        File fileG;
+        int i = this.f1540a;
+        k0 k0Var = this.f1541b;
+        p6.x xVar = p6.x.f8464a;
+        switch (i) {
+            case 0:
+                int i6 = k0.N;
+                k0Var.c0((x4.i0) obj);
+                break;
+            case 1:
+                x4.d0 d0Var = (x4.d0) obj;
+                int i10 = k0.N;
+                if (d0Var instanceof x4.z) {
+                    String string = k0Var.getString(R.string.error_no_connection);
+                    string.getClass();
+                    k0Var.A(string);
+                } else if ((d0Var instanceof x4.x) && k0Var.s0()) {
+                    x4.p1 p1Var = (x4.p1) a5.d.f201a.getValue();
+                    if ((p1Var instanceof x4.o1 ? ((x4.o1) p1Var).f11307a : null) == null && (rVarA = d0Var.a()) != null && (fileG = rVarA.g()) != null) {
+                        k0Var.W(fileG, null);
+                    }
+                }
+                k0Var.b0(d0Var);
+                break;
+            default:
+                x4.u0 u0Var = (x4.u0) obj;
+                int i11 = k0.N;
+                boolean z9 = u0Var instanceof x4.o0;
+                k0 k0Var2 = this.f1541b;
+                if (z9) {
+                    String string2 = k0Var2.getString(R.string.error_no_connection);
+                    string2.getClass();
+                    k0Var2.A(string2);
+                } else if ((u0Var instanceof x4.s0) && k0Var2.s0()) {
+                    x4.p1 p1Var2 = (x4.p1) a5.d.f201a.getValue();
+                    t6.c cVar2 = null;
+                    if ((p1Var2 instanceof x4.o1 ? ((x4.o1) p1Var2).f11307a : null) == null && u0Var.a() != null) {
+                        x4.r rVarA2 = u0Var.a();
+                        rVarA2.getClass();
+                        File fileG2 = rVarA2.g();
+                        if (fileG2 != null) {
+                            o7.c0.s(LifecycleOwnerKt.getLifecycleScope(k0Var2), null, null, new b.m(rVarA2, k0Var2, fileG2, cVar2, 2), 3);
+                        }
+                    }
+                }
+                k0Var2.d0(u0Var);
+                break;
+        }
+        return xVar;
+    }
+}

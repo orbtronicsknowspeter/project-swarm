@@ -1,0 +1,415 @@
+package n5;
+
+import a4.g0;
+import a4.l0;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import androidx.core.content.ContextCompat;
+import c4.k0;
+import com.google.android.gms.internal.measurement.i5;
+import com.google.android.gms.internal.measurement.z3;
+import com.uptodown.R;
+import com.uptodown.UptodownApp;
+import java.util.concurrent.atomic.AtomicBoolean;
+import x4.r;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class d {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public x4.g f8070a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final RelativeLayout f8071b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    public final android.support.v4.media.g f8072c;
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    public View f8073d;
+
+    /* JADX INFO: renamed from: e, reason: collision with root package name */
+    public RelativeLayout f8074e;
+    public ImageView f;
+    public TextView g;
+    public TextView h;
+    public TextView i;
+    public TextView j;
+
+    /* JADX INFO: renamed from: k, reason: collision with root package name */
+    public TextView f8075k;
+
+    /* JADX INFO: renamed from: l, reason: collision with root package name */
+    public ImageView f8076l;
+
+    /* JADX INFO: renamed from: m, reason: collision with root package name */
+    public LinearLayout f8077m;
+
+    /* JADX INFO: renamed from: n, reason: collision with root package name */
+    public ProgressBar f8078n;
+
+    /* JADX INFO: renamed from: o, reason: collision with root package name */
+    public TextView f8079o;
+
+    /* JADX INFO: renamed from: p, reason: collision with root package name */
+    public final AtomicBoolean f8080p;
+
+    /* JADX INFO: renamed from: q, reason: collision with root package name */
+    public boolean f8081q;
+
+    public d(x4.g gVar, RelativeLayout relativeLayout, android.support.v4.media.g gVar2) {
+        gVar.getClass();
+        relativeLayout.getClass();
+        this.f8070a = gVar;
+        this.f8071b = relativeLayout;
+        this.f8072c = gVar2;
+        this.f8080p = new AtomicBoolean(false);
+    }
+
+    public static final void a(k0 k0Var, d dVar) {
+        ImageView imageView = dVar.f8076l;
+        if (imageView == null) {
+            kotlin.jvm.internal.l.i("ivLikeAppInfoSelected");
+            throw null;
+        }
+        imageView.setBackground(ContextCompat.getDrawable(k0Var, R.drawable.ripple_wishlist));
+        ImageView imageView2 = dVar.f8076l;
+        if (imageView2 == null) {
+            kotlin.jvm.internal.l.i("ivLikeAppInfoSelected");
+            throw null;
+        }
+        imageView2.setImageResource(R.drawable.vector_heart_blue);
+        ImageView imageView3 = dVar.f8076l;
+        if (imageView3 != null) {
+            imageView3.setVisibility(0);
+        } else {
+            kotlin.jvm.internal.l.i("ivLikeAppInfoSelected");
+            throw null;
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0074  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final void b(c4.k0 r18) {
+        /*
+            Method dump skipped, instruction units count: 457
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: n5.d.b(c4.k0):void");
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:27:0x006a  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final boolean c(c4.k0 r9) {
+        /*
+            r8 = this;
+            java.lang.String r0 = "SettingsPreferences"
+            java.lang.String r1 = "animations"
+            r9.getClass()
+            android.widget.RelativeLayout r2 = r8.f8071b
+            int r3 = r2.getVisibility()
+            r4 = 0
+            if (r3 != 0) goto L78
+            float r3 = com.uptodown.UptodownApp.I
+            r3 = 1
+            android.content.SharedPreferences r5 = r9.getSharedPreferences(r0, r4)     // Catch: java.lang.Exception -> L22
+            boolean r6 = r5.contains(r1)     // Catch: java.lang.Exception -> L22
+            if (r6 == 0) goto L22
+            boolean r5 = r5.getBoolean(r1, r3)     // Catch: java.lang.Exception -> L22
+            goto L23
+        L22:
+            r5 = r3
+        L23:
+            r6 = 0
+            if (r5 == 0) goto L6a
+            float r5 = com.uptodown.UptodownApp.I
+            java.util.concurrent.atomic.AtomicBoolean r5 = r8.f8080p
+            boolean r5 = r5.compareAndSet(r4, r3)
+            if (r5 == 0) goto L6a
+            n5.c r2 = new n5.c
+            r2.<init>(r8, r4)
+            android.widget.RelativeLayout r5 = r8.f8074e
+            if (r5 == 0) goto L64
+            c4.r3 r7 = new c4.r3
+            r7.<init>(r9, r8, r2)
+            r2 = 2130772034(0x7f010042, float:1.7147175E38)
+            android.view.animation.Animation r2 = android.view.animation.AnimationUtils.loadAnimation(r9, r2)
+            android.content.SharedPreferences r0 = r9.getSharedPreferences(r0, r4)     // Catch: java.lang.Exception -> L54
+            boolean r4 = r0.contains(r1)     // Catch: java.lang.Exception -> L54
+            if (r4 == 0) goto L54
+            boolean r0 = r0.getBoolean(r1, r3)     // Catch: java.lang.Exception -> L54
+            goto L55
+        L54:
+            r0 = r3
+        L55:
+            if (r0 == 0) goto L60
+            float r0 = com.uptodown.UptodownApp.I
+            r2.setAnimationListener(r7)
+            r5.startAnimation(r2)
+            goto L6f
+        L60:
+            r7.onAnimationEnd(r2)
+            goto L6f
+        L64:
+            java.lang.String r9 = "rlAppInfoSelected"
+            kotlin.jvm.internal.l.i(r9)
+            throw r6
+        L6a:
+            r0 = 8
+            r2.setVisibility(r0)
+        L6f:
+            boolean r0 = r9.isFinishing()
+            if (r0 != 0) goto L77
+            r9.L = r6
+        L77:
+            return r3
+        L78:
+            return r4
+        */
+        throw new UnsupportedOperationException("Method not decompiled: n5.d.c(c4.k0):boolean");
+    }
+
+    public final void d(k0 k0Var) {
+        if (!this.f8081q) {
+            l0 l0VarE = g0.d().e(this.f8070a.h());
+            float f = UptodownApp.I;
+            l0VarE.g(b4.d.f(k0Var));
+            l0VarE.h(b4.d.x(k0Var));
+            ImageView imageView = this.f;
+            if (imageView == null) {
+                kotlin.jvm.internal.l.i("ivLogoAppInfoSelected");
+                throw null;
+            }
+            l0VarE.e(imageView, new g5.f(this, 11));
+        }
+        TextView textView = this.g;
+        if (textView == null) {
+            kotlin.jvm.internal.l.i("tvNameAppInfoSelected");
+            throw null;
+        }
+        textView.setText(this.f8070a.f11160b);
+        TextView textView2 = this.i;
+        if (textView2 == null) {
+            kotlin.jvm.internal.l.i("tvAuthorAppInfoSelected");
+            throw null;
+        }
+        textView2.setText(this.f8070a.f11191w);
+        TextView textView3 = this.f8075k;
+        if (textView3 == null) {
+            kotlin.jvm.internal.l.i("tvValorationAppInfoSelected");
+            throw null;
+        }
+        textView3.setText(String.valueOf(((double) this.f8070a.f11195y) / 10.0d));
+        b(k0Var);
+    }
+
+    public final void e(r rVar, k0 k0Var) {
+        ProgressBar progressBar = this.f8078n;
+        if (progressBar == null) {
+            kotlin.jvm.internal.l.i("pbAppInfoSelected");
+            throw null;
+        }
+        ImageView imageView = this.f;
+        if (imageView == null) {
+            kotlin.jvm.internal.l.i("ivLogoAppInfoSelected");
+            throw null;
+        }
+        t0.f.I(progressBar, imageView);
+        TextView textView = this.i;
+        if (textView == null) {
+            kotlin.jvm.internal.l.i("tvAuthorAppInfoSelected");
+            throw null;
+        }
+        textView.setVisibility(8);
+        LinearLayout linearLayout = this.f8077m;
+        if (linearLayout == null) {
+            kotlin.jvm.internal.l.i("llAppInfoSelected");
+            throw null;
+        }
+        int i = 0;
+        linearLayout.setVisibility(0);
+        TextView textView2 = this.h;
+        if (textView2 == null) {
+            kotlin.jvm.internal.l.i("tvActionAppInfoSelected");
+            throw null;
+        }
+        textView2.setText(R.string.option_button_cancel);
+        TextView textView3 = this.h;
+        if (textView3 == null) {
+            kotlin.jvm.internal.l.i("tvActionAppInfoSelected");
+            throw null;
+        }
+        textView3.setOnClickListener(new a(this, k0Var, i));
+        TextView textView4 = this.h;
+        if (textView4 == null) {
+            kotlin.jvm.internal.l.i("tvActionAppInfoSelected");
+            throw null;
+        }
+        z3.K(textView4);
+        if (rVar.i() == 0) {
+            TextView textView5 = this.f8079o;
+            if (textView5 == null) {
+                kotlin.jvm.internal.l.i("tvProgressAppInfoSelected");
+                throw null;
+            }
+            textView5.setText(k0Var.getString(R.string.status_download_update_pending));
+            ProgressBar progressBar2 = this.f8078n;
+            if (progressBar2 != null) {
+                progressBar2.setIndeterminate(true);
+                return;
+            } else {
+                kotlin.jvm.internal.l.i("pbAppInfoSelected");
+                throw null;
+            }
+        }
+        ProgressBar progressBar3 = this.f8078n;
+        if (progressBar3 == null) {
+            kotlin.jvm.internal.l.i("pbAppInfoSelected");
+            throw null;
+        }
+        progressBar3.setIndeterminate(false);
+        TextView textView6 = this.f8079o;
+        if (textView6 == null) {
+            kotlin.jvm.internal.l.i("tvProgressAppInfoSelected");
+            throw null;
+        }
+        textView6.setText(k0Var.getString(R.string.percent_of_total_size, Integer.valueOf(rVar.i()), i5.H(k0Var, rVar.k())));
+        ProgressBar progressBar4 = this.f8078n;
+        if (progressBar4 != null) {
+            progressBar4.setProgress(rVar.i());
+        } else {
+            kotlin.jvm.internal.l.i("pbAppInfoSelected");
+            throw null;
+        }
+    }
+
+    public final void f(String str) {
+        ProgressBar progressBar = this.f8078n;
+        if (progressBar == null) {
+            kotlin.jvm.internal.l.i("pbAppInfoSelected");
+            throw null;
+        }
+        ImageView imageView = this.f;
+        if (imageView == null) {
+            kotlin.jvm.internal.l.i("ivLogoAppInfoSelected");
+            throw null;
+        }
+        t0.f.s(progressBar, imageView);
+        TextView textView = this.h;
+        if (textView == null) {
+            kotlin.jvm.internal.l.i("tvActionAppInfoSelected");
+            throw null;
+        }
+        textView.setText(str);
+        TextView textView2 = this.h;
+        if (textView2 == null) {
+            kotlin.jvm.internal.l.i("tvActionAppInfoSelected");
+            throw null;
+        }
+        z3.J(textView2);
+        LinearLayout linearLayout = this.f8077m;
+        if (linearLayout == null) {
+            kotlin.jvm.internal.l.i("llAppInfoSelected");
+            throw null;
+        }
+        linearLayout.setVisibility(8);
+        TextView textView3 = this.i;
+        if (textView3 != null) {
+            textView3.setVisibility(0);
+        } else {
+            kotlin.jvm.internal.l.i("tvAuthorAppInfoSelected");
+            throw null;
+        }
+    }
+
+    public final void g() {
+        ProgressBar progressBar = this.f8078n;
+        if (progressBar == null) {
+            kotlin.jvm.internal.l.i("pbAppInfoSelected");
+            throw null;
+        }
+        ImageView imageView = this.f;
+        if (imageView == null) {
+            kotlin.jvm.internal.l.i("ivLogoAppInfoSelected");
+            throw null;
+        }
+        t0.f.I(progressBar, imageView);
+        TextView textView = this.i;
+        if (textView == null) {
+            kotlin.jvm.internal.l.i("tvAuthorAppInfoSelected");
+            throw null;
+        }
+        textView.setVisibility(8);
+        LinearLayout linearLayout = this.f8077m;
+        if (linearLayout == null) {
+            kotlin.jvm.internal.l.i("llAppInfoSelected");
+            throw null;
+        }
+        linearLayout.setVisibility(0);
+        TextView textView2 = this.i;
+        if (textView2 == null) {
+            kotlin.jvm.internal.l.i("tvAuthorAppInfoSelected");
+            throw null;
+        }
+        textView2.setText(this.f8071b.getContext().getString(R.string.installing));
+        TextView textView3 = this.h;
+        if (textView3 == null) {
+            kotlin.jvm.internal.l.i("tvActionAppInfoSelected");
+            throw null;
+        }
+        textView3.setVisibility(8);
+        ProgressBar progressBar2 = this.f8078n;
+        if (progressBar2 != null) {
+            progressBar2.setIndeterminate(true);
+        } else {
+            kotlin.jvm.internal.l.i("pbAppInfoSelected");
+            throw null;
+        }
+    }
+
+    public final void h(k0 k0Var) {
+        ImageView imageView = this.f8076l;
+        if (imageView == null) {
+            kotlin.jvm.internal.l.i("ivLikeAppInfoSelected");
+            throw null;
+        }
+        imageView.setBackground(ContextCompat.getDrawable(k0Var, R.drawable.ripple_wishlist_added));
+        ImageView imageView2 = this.f8076l;
+        if (imageView2 == null) {
+            kotlin.jvm.internal.l.i("ivLikeAppInfoSelected");
+            throw null;
+        }
+        imageView2.setImageResource(R.drawable.vector_heart_white);
+        ImageView imageView3 = this.f8076l;
+        if (imageView3 != null) {
+            imageView3.setVisibility(0);
+        } else {
+            kotlin.jvm.internal.l.i("ivLikeAppInfoSelected");
+            throw null;
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0091  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final void i(x4.r r10, int r11, c4.k0 r12) {
+        /*
+            Method dump skipped, instruction units count: 274
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: n5.d.i(x4.r, int, c4.k0):void");
+    }
+}

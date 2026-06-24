@@ -1,0 +1,28 @@
+package u4;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final class t extends v6.c {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public /* synthetic */ Object f10604a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ f0 f10605b;
+
+    /* JADX INFO: renamed from: l, reason: collision with root package name */
+    public int f10606l;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public t(f0 f0Var, v6.c cVar) {
+        super(cVar);
+        this.f10605b = f0Var;
+    }
+
+    @Override // v6.a
+    public final Object invokeSuspend(Object obj) {
+        this.f10604a = obj;
+        this.f10606l |= Integer.MIN_VALUE;
+        return f0.a(this.f10605b, this);
+    }
+}

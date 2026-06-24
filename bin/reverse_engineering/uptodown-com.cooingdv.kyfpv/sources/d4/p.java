@@ -1,0 +1,69 @@
+package d4;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import androidx.fragment.app.FragmentActivity;
+import com.uptodown.activities.AppDetailActivity;
+import com.uptodown.activities.GdprPrivacySettings;
+import com.uptodown.activities.MainActivity;
+import com.uptodown.activities.preferences.PreferencesActivity;
+import com.uptodown.tv.preferences.TvPrivacyPreferences;
+import com.uptodown.tv.ui.activity.TvMainActivity;
+import com.uptodown.tv.ui.fragment.TvAppDetailFragment;
+
+/* JADX INFO: compiled from: r8-map-id-035a71e92ccd2a2b8039d43fa6fa76ac249b2a7f96061be914156707964ce49d */
+/* JADX INFO: loaded from: classes3.dex */
+public final /* synthetic */ class p implements DialogInterface.OnClickListener {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    public final /* synthetic */ int f3595a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    public final /* synthetic */ Object f3596b;
+
+    public /* synthetic */ p(Object obj, int i) {
+        this.f3595a = i;
+        this.f3596b = obj;
+    }
+
+    @Override // android.content.DialogInterface.OnClickListener
+    public final void onClick(DialogInterface dialogInterface, int i) {
+        int i6 = this.f3595a;
+        Object obj = this.f3596b;
+        switch (i6) {
+            case 0:
+                PreferencesActivity preferencesActivity = (PreferencesActivity) obj;
+                int i10 = PreferencesActivity.T;
+                Intent intent = new Intent();
+                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                intent.putExtra("android.provider.extra.APP_PACKAGE", preferencesActivity.getPackageName());
+                if (intent.resolveActivity(preferencesActivity.getPackageManager()) != null) {
+                    preferencesActivity.startActivityForResult(intent, 646);
+                }
+                dialogInterface.dismiss();
+                break;
+            case 1:
+                TvMainActivity tvMainActivity = (TvMainActivity) obj;
+                int i11 = TvMainActivity.f3408p;
+                dialogInterface.dismiss();
+                tvMainActivity.f3412o.launch(new Intent(tvMainActivity, (Class<?>) TvPrivacyPreferences.class));
+                break;
+            case 2:
+                TvAppDetailFragment tvAppDetailFragment = (TvAppDetailFragment) obj;
+                dialogInterface.dismiss();
+                tvAppDetailFragment.startActivity(new Intent(tvAppDetailFragment.requireActivity(), (Class<?>) TvPrivacyPreferences.class));
+                break;
+            default:
+                FragmentActivity fragmentActivity = (FragmentActivity) obj;
+                dialogInterface.dismiss();
+                if (fragmentActivity instanceof AppDetailActivity) {
+                    ((AppDetailActivity) fragmentActivity).V.launch(new Intent(fragmentActivity, (Class<?>) GdprPrivacySettings.class));
+                } else if (!(fragmentActivity instanceof MainActivity)) {
+                    fragmentActivity.startActivity(new Intent(fragmentActivity, (Class<?>) GdprPrivacySettings.class));
+                } else {
+                    ((MainActivity) fragmentActivity).A0.launch(new Intent(fragmentActivity, (Class<?>) GdprPrivacySettings.class));
+                }
+                break;
+        }
+    }
+}
