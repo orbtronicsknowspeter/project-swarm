@@ -1,0 +1,67 @@
+meta:
+  name: Orbtronics
+  link:
+    home: https://orbtronics.co
+    github: https://github.com/Orbtronics-Dev/meta-quest
+    linkedin: https://www.linkedin.com/company/orbtronicsltd
+
+color:
+  palette:
+    blue: "#0070E7"
+  background:
+    light: white
+    dark: black
+  foreground:
+    light: black
+    dark: white
+  primary: blue
+
+logo:
+  images:
+    orbtronics_favicon_light-mode:
+      path: ./assets/logos/orbtronics_favicon_light-mode.svg
+      alt: "Orbtronics Logo"
+    orbtronics_favicon_dark-mode:
+      path: ./assets/logos/orbtronics_favicon_dark-mode.svg
+      alt: "Orbtronics Logo"
+    orbtronics_logo_light-mode:
+      path: ./assets/logos/orbtronics_logo_light-mode.svg
+      alt: "Orbtronics Logo"
+    orbtronics_logo_dark-mode:
+      path: ./assets/logos/orbtronics_logo_dark-mode.svg
+      alt: "Orbtronics Logo"
+  small:
+    light: orbtronics_favicon_light-mode
+    dark: orbtronics_favicon_dark-mode
+  medium:
+    light: orbtronics_logo_light-mode
+    dark: orbtronics_logo_dark-mode
+  large:
+    light: orbtronics_logo_light-mode
+    dark: orbtronics_logo_dark-mode
+
+typography:
+  fonts:
+    - family: Helvetica Neue
+      source: file
+      files:
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueBlack.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueBlackItalic.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueBold.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueBoldItalic.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueHeavy.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueHeavyItalic.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueMedium.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueMediumItalic.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueLight.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueLightItalic.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueThin.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueThinItalic.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueUltraLight.otf
+        - path: ./assets/fonts/helvetica-neue-5/HelveticaNeueUltraLightItalic.otf
+  base: Helvetica
+  headings:
+    color: blue
+  link:
+    decoration: underline
+    color: blue
