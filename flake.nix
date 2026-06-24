@@ -29,51 +29,60 @@
           };
         };
 
+        # link loading
         ld_pkgs = with pkgs; [
           libcap
           stdenv.cc.cc
           openssl
+          openxr-loader
+        ];
+
+        # compilers & runtimes
+        runtime_pkgs = with pkgs; [
+          androidsdk
+          dotnet-sdk_9
+          pnpm
+          nodejs
+          uv
+        ];
+
+        dev_pkgs = with pkgs; [
+          alvr
+          android-tools
+          blender
+          claude-code
+          cmake
+          ghidra
+          jadx
+          just
+          p7zip
+          platformio
+          quarto
+          termshark
+          unityhub
+          unity-test
+          wireshark
+        ];
+
+        doc_pkgs = with pkgs; [
+          quarto
+          typst
+        ];
+
+        treefmt_pkgs = with pkgs; [
+          treefmt
+          clang-tools
+          cmake-format
+          nixfmt
+          prettier
+          ruff
+          taplo
         ];
       in
       {
         devShells = {
           default = pkgs.mkShell {
-            packages = with pkgs; [
-              # compilers & runtimes
-              androidsdk
-              android-tools
-              dotnet-sdk_9
-              pnpm
-              nodejs
-
-              # dev tools
-              alvr
-              blender
-              claude-code
-              cmake
-              ghidra
-              jadx
-              just
-              openxr-loader
-              p7zip
-              platformio
-              quarto
-              termshark
-              treefmt
-              typst
-              unityhub
-              unity-test
-              uv
-              wireshark
-
-              # formatters & linters
-              clang-tools
-              cmake-format
-              nixfmt
-              prettier
-              ruff
-              taplo
-            ];
+            packages = [ ] ++ treefmt_pkgs ++ doc_pkgs ++ dev_pkgs ++ runtime_pkgs;
 
             NIX_LD = pkgs.stdenv.cc.bintools.dynamicLinker;
 
@@ -96,6 +105,14 @@
 
               							uv sync
               						'';
+          };
+          treefmt = pkgs.mkShell {
+            packages =
+              with pkgs;
+              [
+                just
+              ]
+              ++ treefmt_pkgs;
           };
         };
       }
