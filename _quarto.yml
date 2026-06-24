@@ -1,0 +1,25 @@
+project:
+  output-dir: _output
+  type: website
+  preview:
+    port: 4000
+
+website:
+  title: "Project SWARM: Virtual Control of Swarm Vehicles"
+  page-navigation: true
+  repo-url: https://github.com/kevon-orbtronics/Virtual-Control-of-Swarm-Vehicles
+  bread-crumbs: true
+  sidebar:
+    search: true
+  other-links:
+    - text: Orbtronics
+      href: https://orbtronics.co/
+
+format:
+  html:
+    toc: true
+    toc-location: left
+    html-math-method: mathjax
+    embed-resources: true
+    smooth-scoll: true
+  jats: default

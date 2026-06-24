@@ -1,0 +1,15 @@
+# Concepts
+
+## Abstract
+
+The goal is to use the Meta Quest 3 as an HID for motorized systems and to provide the ability to control such system by hand motions. 
+
+## References
+
+[github.com/SwannSchilling/RobotArm](https://github.com/SwannSchilling/RobotArm)
+
+[github.com/mcd005/VR-Controlled-Robot-Arm](https://github.com/mcd005/VR-Controlled-Robot-Arm)
+
+[github.com/marshallrichards/turbodrone](https://github.com/marshallrichards/turbodrone)
+
+[github.com/pascallanger/diy-multiprotocol-tx-module](https://github.com/pascallanger/diy-multiprotocol-tx-module)
