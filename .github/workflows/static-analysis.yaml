@@ -23,8 +23,8 @@ jobs:
 
       - name: Lint
         run: |
-          nix develop -c treefmt --config-file treefmt.lint.toml --ci
+          nix develop .#treefmt -c treefmt --config-file treefmt.lint.toml --ci
 
       - name: Format
         run: |
-          nix develop -c treefmt --config-file treefmt.toml --ci
+          nix develop .#treefmt -c treefmt --config-file treefmt.toml --ci
