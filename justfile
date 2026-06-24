@@ -9,3 +9,9 @@ quarto-preview:
 
 quarto-render:
 	@quarto render
+
+lint args="" config_file="./treefmt.lint.toml":
+	@treefmt {{ args }} --config-file {{ config_file }}
+
+format args="" config_file="./treefmt.toml":
+	@treefmt {{ args }} --config-file {{ config_file }}
