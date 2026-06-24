@@ -1,10 +1,13 @@
 import asyncio
 import json
-import os
-import numpy as np
 
 from aiohttp import web
-from aiortc import RTCPeerConnection, RTCSessionDescription, RTCConfiguration, RTCIceServer
+from aiortc import (
+    RTCPeerConnection,
+    RTCSessionDescription,
+    RTCConfiguration,
+    RTCIceServer,
+)
 from aiortc import VideoStreamTrack
 
 from av import VideoFrame
@@ -80,21 +83,21 @@ pcs = set()
 picam2 = Picamera2()
 
 config = picam2.create_video_configuration(
-     main={"size": (1280, 720), "format": "RGB888"}
+    main={"size": (1280, 720), "format": "RGB888"}
 )
 
 picam2.configure(config)
 picam2.start()
 sleep(2)  # Let AWB settle
-#picam2.set_controls({"AwbEnable": False, "ColourGains": (1.1, 1.7)})
+# picam2.set_controls({"AwbEnable": False, "ColourGains": (1.1, 1.7)})
 
 
 # ==========================================================
 # VIDEO TRACK
 # ==========================================================
 
-class CameraVideoTrack(VideoStreamTrack):
 
+class CameraVideoTrack(VideoStreamTrack):
     def __init__(self):
         super().__init__()
         self._debug_saved = False
@@ -123,18 +126,18 @@ class CameraVideoTrack(VideoStreamTrack):
 # WEBRTC OFFER HANDLER
 # ==========================================================
 
+
 async def offer(request):
 
     params = await request.json()
 
-    offer = RTCSessionDescription(
-        sdp=params["sdp"],
-        type=params["type"]
-    )
+    offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
 
-    pc = RTCPeerConnection(configuration=RTCConfiguration(
-        iceServers=[RTCIceServer(urls=["stun:stun.l.google.com:19302"])]
-    ))
+    pc = RTCPeerConnection(
+        configuration=RTCConfiguration(
+            iceServers=[RTCIceServer(urls=["stun:stun.l.google.com:19302"])]
+        )
+    )
     pcs.add(pc)
 
     print("New WebRTC connection created")
@@ -158,16 +161,16 @@ async def offer(request):
 
     return web.Response(
         content_type="application/json",
-        text=json.dumps({
-            "sdp": pc.localDescription.sdp,
-            "type": pc.localDescription.type
-        }),
+        text=json.dumps(
+            {"sdp": pc.localDescription.sdp, "type": pc.localDescription.type}
+        ),
     )
 
 
 # ==========================================================
 # INDEX ROUTE
 # ==========================================================
+
 
 async def index(request):
     return web.Response(text=INDEX_HTML, content_type="text/html")
@@ -176,6 +179,7 @@ async def index(request):
 # ==========================================================
 # CLEANUP
 # ==========================================================
+
 
 async def on_shutdown(app):
     await asyncio.gather(*[pc.close() for pc in pcs])

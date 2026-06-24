@@ -2,19 +2,19 @@
 command = "clang-format"
 excludes = []
 includes = [
-    "*.c",
-    "*.cc",
-    "*.cpp",
-    "*.h",
-    "*.hh",
-    "*.hpp",
-    "*.glsl",
-    "*.vert",
-    ".tesc",
-    ".tese",
-    ".geom",
-    ".frag",
-    ".comp",
+  "*.c",
+  "*.cc",
+  "*.cpp",
+  "*.h",
+  "*.hh",
+  "*.hpp",
+  "*.glsl",
+  "*.vert",
+  ".tesc",
+  ".tese",
+  ".geom",
+  ".frag",
+  ".comp",
 ]
 options = []
 
@@ -22,19 +22,19 @@ options = []
 command = "clang-tidy"
 excludes = []
 includes = [
-    "*.c",
-    "*.cc",
-    "*.cpp",
-    "*.h",
-    "*.hh",
-    "*.hpp",
-    "*.glsl",
-    "*.vert",
-    ".tesc",
-    ".tese",
-    ".geom",
-    ".frag",
-    ".comp",
+  "*.c",
+  "*.cc",
+  "*.cpp",
+  "*.h",
+  "*.hh",
+  "*.hpp",
+  "*.glsl",
+  "*.vert",
+  ".tesc",
+  ".tese",
+  ".geom",
+  ".frag",
+  ".comp",
 ]
 options = []
 

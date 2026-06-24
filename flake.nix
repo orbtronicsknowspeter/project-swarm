@@ -50,8 +50,8 @@
               alvr
               blender
               claude-code
-							cmake
-							ghidra
+              cmake
+              ghidra
               jadx
               just
               openxr-loader
@@ -67,11 +67,11 @@
               wireshark
 
               # formatters & linters
-							clang-tools
-							cmake-format
+              clang-tools
+              cmake-format
               nixfmt
               prettier
-							ruff
+              ruff
               taplo
             ];
 

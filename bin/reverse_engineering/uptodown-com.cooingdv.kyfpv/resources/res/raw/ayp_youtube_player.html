@@ -1,19 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <style type="text/css">
-        html, body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: #000000;
-            overflow: hidden;
-            position: fixed;
-        }
-    </style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      overflow: hidden;
+      position: fixed;
+    }
+  </style>
 
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <!-- defer forces the library to execute after the html page is fully parsed. -->
     <!-- This is needed to avoid race conditions, where the library executes and calls `onYouTubeIframeAPIReady` before the page is fully parsed. -->
     <!-- See #873 on GitHub -->
@@ -41,7 +45,7 @@
     function onYouTubeIframeAPIReady() {
 
       YouTubePlayerBridge.sendYouTubeIFrameAPIReady();
-            
+
       var youtubePlayerConfig = {
         height: '100%',
         width: '100%',
@@ -189,6 +193,5 @@
       var isMuted = player.isMuted();
       YouTubePlayerCallbacks.sendBooleanValue(requestId, isMuted);
     }
-
   </script>
 </html>

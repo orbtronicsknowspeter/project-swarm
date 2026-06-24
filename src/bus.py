@@ -35,8 +35,8 @@ class KCBUS:
                        data to the Control Hub.
     """
 
-    BUFFER_MAX          = 5
-    POLL_YIELD          = 0        # seconds; 0 = yield without sleeping
+    BUFFER_MAX = 5
+    POLL_YIELD = 0  # seconds; 0 = yield without sleeping
     READ_TIMEOUT_YIELDS = 100_000  # abort read after this many poll iterations
 
     def __init__(
@@ -50,20 +50,29 @@ class KCBUS:
         output_state_pin: int,
     ):
         if len(read_pins) != 2 or len(write_pins) != 2:
-            raise ValueError("read_pins and write_pins must each have exactly 2 entries.")
+            raise ValueError(
+                "read_pins and write_pins must each have exactly 2 entries."
+            )
 
         self.buffer: deque[int] = deque(maxlen=self.BUFFER_MAX)
 
         # Inputs (inverted because the Control Hub uses active-low signalling)
-        self.read_pins       = [DigitalInputDevice(pin) for pin in read_pins]
-        self.input_clk       = DigitalInputDevice(input_clk)
+        self.read_pins = [DigitalInputDevice(pin) for pin in read_pins]
+        self.input_clk = DigitalInputDevice(input_clk)
         self.input_state_pin = DigitalInputDevice(input_state_pin)
 
         # Outputs — start LOW in logical terms, but use inverted GPIO polarity
-        self.write_pins       = [OutputDevice(pin, initial_value=False, active_high=True) for pin in write_pins]
-        self.output_state_pin = OutputDevice(output_state_pin, initial_value=False, active_high=True)
-        self.output_clk       = OutputDevice(output_clk, initial_value=False, active_high=True)
-        self.output_clk_freq  = output_clk_freq
+        self.write_pins = [
+            OutputDevice(pin, initial_value=False, active_high=True)
+            for pin in write_pins
+        ]
+        self.output_state_pin = OutputDevice(
+            output_state_pin, initial_value=False, active_high=True
+        )
+        self.output_clk = OutputDevice(
+            output_clk, initial_value=False, active_high=True
+        )
+        self.output_clk_freq = output_clk_freq
 
     # ------------------------------------------------------------------
     # Read
@@ -79,10 +88,10 @@ class KCBUS:
 
         Returns the assembled integer, or the partial value on timeout.
         """
-        data         = 0
+        data = 0
         bit_position = 0
-        prev_clock   = self.input_clk.value
-        yields       = 0
+        prev_clock = self.input_clk.value
+        yields = 0
 
         while self.input_state_pin.value:
             curr_clock = self.input_clk.value
@@ -91,7 +100,7 @@ class KCBUS:
                 for pin in reversed(self.read_pins):
                     # The MSB of the data comes in first, so fix the code below to shift the bits into the correct position.
                     data = (data << 1) | pin.value
-                    #print(f"Data: {data:#010b}, bit_position: {bit_position}, pin.value: {pin.value}")
+                    # print(f"Data: {data:#010b}, bit_position: {bit_position}, pin.value: {pin.value}")
                 bit_position += len(self.read_pins)
 
             prev_clock = curr_clock
@@ -123,7 +132,7 @@ class KCBUS:
                 f"bit_length ({bit_length}) must be a multiple of "
                 f"the number of write pins ({len(self.write_pins)})."
             )
-        remaining  = bit_length
+        remaining = bit_length
 
         try:
             clock_state = self.input_clk.value  # Start in sync with the Hub's clock
@@ -140,8 +149,10 @@ class KCBUS:
                     remaining -= len(self.write_pins)
                 prev_clock = clock_state
             while not self.input_clk.value:
-                await asyncio.sleep(self.POLL_YIELD)  # Sleep until the Hub has read the last bits on the rising edge.
-                # Wait for the Hub to finish reading the last bits before releasing the bus.    
+                await asyncio.sleep(
+                    self.POLL_YIELD
+                )  # Sleep until the Hub has read the last bits on the rising edge.
+                # Wait for the Hub to finish reading the last bits before releasing the bus.
             self.output_state_pin.off()
         finally:
             # Always release the bus, even if an exception is raised.
@@ -201,7 +212,7 @@ class KCBUS:
         The buffer is bounded by BUFFER_MAX; oldest entries are evicted
         automatically (via deque maxlen).
         """
-        
+
         while True:
             # Toggle the output clock at the specified frequency
             if self.ready_to_read():
@@ -296,6 +307,7 @@ def _restore_terminal_mode(old_settings: tuple) -> None:
 # Example usage
 # ---------------------------------------------------------------------------
 
+
 async def main():
     with KCBUS(
         read_pins=[5, 6],
@@ -306,6 +318,7 @@ async def main():
         input_state_pin=19,
         output_state_pin=16,
     ) as bus:
+
         async def send_wheel_speeds(left_speed: int, right_speed: int):
             await bus.write(left_speed, bit_length=16)
             print(f"Sent left: {left_speed}")
@@ -319,7 +332,9 @@ async def main():
             key_timestamps: dict[str, float] = {}
             try:
                 while True:
-                    key = await asyncio.get_running_loop().run_in_executor(None, _read_keypress, 0.1)
+                    key = await asyncio.get_running_loop().run_in_executor(
+                        None, _read_keypress, 0.1
+                    )
                     now = time.monotonic()
 
                     if key in {"QUIT", "CTRL_C"}:
@@ -327,13 +342,14 @@ async def main():
                     if key is not None:
                         if key.startswith("SHIFT_"):
                             key_timestamps["SHIFT"] = now
-                            key_timestamps[key[len("SHIFT_"):]] = now
+                            key_timestamps[key[len("SHIFT_") :]] = now
                         elif key in {"UP", "DOWN", "LEFT", "RIGHT"}:
                             key_timestamps[key] = now
 
                     # Remove keys that are no longer being held.
                     key_timestamps = {
-                        k: timestamp for k, timestamp in key_timestamps.items()
+                        k: timestamp
+                        for k, timestamp in key_timestamps.items()
                         if now - timestamp <= 0.25
                     }
                     active_keys = set(key_timestamps)
