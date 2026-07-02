@@ -62,6 +62,8 @@ yolo train model=yolov8n.pt data=data/dataset.yaml epochs=50 imgsz=640
 
 `src/detect_webcam.py` runs the detector standalone against a local webcam (`cv2.VideoCapture`) — no Pi hardware needed. `picamera2` is gated behind a `platform_machine` marker in `pyproject.toml`, so `uv sync` on a non-Pi dev machine skips it and the CV pipeline can be tested anywhere.
 
+Ultralytics auto-downloads `yolov8n.pt` into the project root on first run; `*.pt` and `runs/` are gitignored, so weights and training outputs never get committed.
+
 ### Serial protocol (Pi → Arduino Uno)
 
 | Command             | Meaning                     |
@@ -78,6 +80,6 @@ All I/O (GPIO reads, serial writes, camera captures, YOLO inference) runs via `l
 
 - **Package manager**: `uv` with `pyproject.toml`
 - **Formatter/linter**: `treefmt` orchestrating `ruff` (Python), `prettier` (JS/YAML/MD), `nixfmt` (Nix), `taplo` (TOML), `clang-format`/`clang-tidy` (C/C++)
-- **Dev environment**: Nix flake (`flake.nix`) — run `nix develop` for a reproducible shell
+- **Dev environment**: Nix flake (`flake.nix`) — run `nix develop` for a reproducible shell. On NixOS, the pip-installed CV wheels (numpy, opencv-python, torch) only import inside this shell: `ld_pkgs` in `flake.nix` supplies their native libs (`zlib`, `libGL`, `glib`, X11/xcb) via `NIX_LD_LIBRARY_PATH`. If a wheel fails with `libfoo.so: cannot open shared object file`, add the missing lib to `ld_pkgs`.
 - **Docs**: Quarto (`.qmd` files in `docs/research/`)
 - **Task runner**: `just` (`justfile`)
