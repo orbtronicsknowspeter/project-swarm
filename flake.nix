@@ -35,7 +35,7 @@
           stdenv.cc.cc
           openssl
           openxr-loader
-          # numpy / opencv-python / ultralytics wheels
+          # numpy / opencv-python / ultralytics wheels (incl. cv2's bundled Qt xcb plugin)
           zlib
           libglvnd
           glib
@@ -43,14 +43,16 @@
           freetype
           libxkbcommon
           dbus
-          xorg.libX11
-          xorg.libXext
-          xorg.libxcb
+          libx11
+          libxext
+          libice
+          libsm
+          libxcb
           xcb-util-cursor
-          xorg.xcbutilimage
-          xorg.xcbutilkeysyms
-          xorg.xcbutilrenderutil
-          xorg.xcbutilwm
+          libxcb-image
+          libxcb-keysyms
+          libxcb-render-util
+          libxcb-wm
         ];
 
         # compilers & runtimes
@@ -108,6 +110,8 @@
 
             shellHook = ''
               							export ANDROID_SDK_ROOT="${pkgs.androidsdk}/libexec/android-sdk"
+
+              							export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
 
               							if [[ ! -d .venv ]]; then
               							uv venv
