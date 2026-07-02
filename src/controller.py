@@ -6,10 +6,15 @@ import asyncio
 import select
 import sys
 import termios
+import threading
 import time
 import tty
 import json
 import serial
+
+import numpy as np
+
+from vision import WeedDetector
 
 from aiohttp import web
 from aiortc import (
@@ -296,6 +301,14 @@ INDEX_HTML = """
       background:#e0a030; border:2px solid #07070f;
       box-shadow:0 0 8px rgba(224,160,48,.6); cursor:pointer;
     }
+
+    /* ── CV Detections ── */
+    .tval.cv-clear { color: #33ff88; }
+    .tval.cv-alert { color: #ff4444; animation: blink 0.5s infinite; }
+    .video-wrap.weed-alert {
+      border-color: #ff4444;
+      box-shadow: 0 0 40px rgba(255,68,68,.25), 0 0 2px rgba(255,68,68,.6);
+    }
   </style>
 </head>
 <body>
@@ -367,6 +380,12 @@ INDEX_HTML = """
       <div class="trow"><span class="tlabel">Dist</span><span class="tval" id="nav-dist">0.00 ft</span></div>
       <div class="trow"><span class="tlabel">Target</span><span class="tval" id="nav-target">&#x2014;&#x2014;</span></div>
       <div class="trow"><span class="tlabel">Status</span><span class="tval good" id="nav-status">IDLE</span></div>
+    </div>
+    <div class="box">
+      <h3>CV Detections</h3>
+      <div class="trow"><span class="tlabel">Weeds</span><span class="tval" id="cv-weeds">—</span></div>
+      <div class="trow"><span class="tlabel">Crops</span><span class="tval" id="cv-crops">—</span></div>
+      <div class="trow"><span class="tlabel">Alert</span><span class="tval cv-clear" id="cv-alert">CLEAR</span></div>
     </div>
     <div class="box" style="flex:1; display:flex; flex-direction:column;">
       <h3>Command Log</h3>
@@ -490,10 +509,44 @@ setInterval(() => {
   document.getElementById("t-uptime").textContent =
     String(Math.floor(s/60)).padStart(2,"0") + ":" + String(s%60).padStart(2,"0");
 }, 1000);
+
+// ── CV detections polling ─────────────────────────────────────
+let _lastAlert = false;
+async function pollDetections() {
+  try {
+    const data = await fetch("/detections").then(r => r.json());
+    document.getElementById("cv-weeds").textContent = data.weeds;
+    document.getElementById("cv-crops").textContent = data.crops;
+    const alertEl = document.getElementById("cv-alert");
+    const vw = document.querySelector(".video-wrap");
+    if (data.alert) {
+      alertEl.textContent = "WEED DETECTED";
+      alertEl.className = "tval cv-alert";
+      vw.classList.add("weed-alert");
+      if (!_lastAlert) addLog("ALERT: " + data.weeds + " weed(s) in frame");
+    } else {
+      alertEl.textContent = "CLEAR";
+      alertEl.className = "tval cv-clear";
+      vw.classList.remove("weed-alert");
+      if (_lastAlert) addLog("CV: field clear");
+    }
+    _lastAlert = data.alert;
+  } catch(e) {}
+}
+setInterval(pollDetections, 500);
 </script>
 </body>
 </html>
 """
+
+# ==========================================================
+# CV PIPELINE STATE
+# ==========================================================
+
+detector = WeedDetector()
+_latest_annotated_frame: np.ndarray | None = None
+_frame_lock = threading.Lock()
+detection_state: dict = {"weeds": 0, "crops": 0, "alert": False, "detections": []}
 
 pcs = set()
 picam2 = Picamera2()
@@ -509,10 +562,18 @@ class CameraVideoTrack(VideoStreamTrack):
         await asyncio.sleep(1 / 30)
         pts, time_base = await self.next_timestamp()
 
-        loop = asyncio.get_running_loop()
-        frame = await loop.run_in_executor(None, picam2.capture_array, "main")
+        with _frame_lock:
+            frame = _latest_annotated_frame
 
-        video_frame = VideoFrame.from_ndarray(frame, format="bgr24")
+        if frame is None:
+            # Vision loop hasn't produced a frame yet — fall back to raw capture
+            loop = asyncio.get_running_loop()
+            frame = await loop.run_in_executor(None, picam2.capture_array, "main")
+            video_frame = VideoFrame.from_ndarray(frame, format="bgr24")
+        else:
+            # Annotated BGR frame from vision pipeline
+            video_frame = VideoFrame.from_ndarray(frame, format="bgr24")
+
         video_frame.pts, video_frame.time_base = pts, time_base
         return video_frame
 
@@ -569,10 +630,52 @@ async def command(request):
 
 
 # ==========================================================
+# DETECTIONS ENDPOINT
+# ==========================================================
+
+
+async def detections(request):
+    return web.Response(
+        content_type="application/json",
+        text=json.dumps(detection_state),
+    )
+
+
+# ==========================================================
 # BACKGROUND TASKS
 # ==========================================================
 terminal_settings = None
 background_tasks = []
+
+
+async def vision_loop():
+    """
+    Continuously captures frames, runs YOLO tracking, and writes the
+    annotated BGR frame to the shared buffer for WebRTC to pick up.
+    Decoupled from recv() so inference speed doesn't block the video stream.
+    """
+    global _latest_annotated_frame, detection_state
+    loop = asyncio.get_running_loop()
+    while True:
+        raw = await loop.run_in_executor(None, picam2.capture_array, "main")
+        annotated, dets = await loop.run_in_executor(None, detector.run, raw)
+
+        with _frame_lock:
+            _latest_annotated_frame = annotated
+
+        weeds = sum(1 for d in dets if d.label == "weed")
+        crops = sum(1 for d in dets if d.label == "crop")
+        detection_state = {
+            "weeds": weeds,
+            "crops": crops,
+            "alert": weeds > 0,
+            "detections": [
+                {"label": d.label, "conf": round(d.confidence, 2), "id": d.track_id}
+                for d in dets
+            ],
+        }
+        # yield to event loop between inference runs
+        await asyncio.sleep(0)
 
 
 def send_wheel_speeds_serial(left_speed: int, right_speed: int):
@@ -653,6 +756,7 @@ async def read_from_uno():
 async def start_background_tasks(app):
     background_tasks.append(asyncio.create_task(control_with_keyboard()))
     background_tasks.append(asyncio.create_task(read_from_uno()))
+    background_tasks.append(asyncio.create_task(vision_loop()))
 
 
 async def cleanup_background_tasks(app):
@@ -678,6 +782,7 @@ if __name__ == "__main__":
     app.router.add_get("/", index)
     app.router.add_post("/offer", offer)
     app.router.add_post("/command", command)
+    app.router.add_get("/detections", detections)
 
     app.on_startup.append(start_background_tasks)
     app.on_cleanup.append(cleanup_background_tasks)
