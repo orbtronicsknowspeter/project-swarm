@@ -2,6 +2,10 @@
 
 __pycache__
 
+# YOLO downloaded weights & training runs
+*.pt
+runs/
+
 .playground/
 .sandbox/
 
