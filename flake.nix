@@ -35,6 +35,22 @@
           stdenv.cc.cc
           openssl
           openxr-loader
+          # numpy / opencv-python / ultralytics wheels
+          zlib
+          libglvnd
+          glib
+          fontconfig
+          freetype
+          libxkbcommon
+          dbus
+          xorg.libX11
+          xorg.libXext
+          xorg.libxcb
+          xcb-util-cursor
+          xorg.xcbutilimage
+          xorg.xcbutilkeysyms
+          xorg.xcbutilrenderutil
+          xorg.xcbutilwm
         ];
 
         # compilers & runtimes
